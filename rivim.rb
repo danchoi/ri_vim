@@ -16,6 +16,7 @@ require 'rdoc/text'
 
 # For RubyGems backwards compatibility
 require 'rdoc/ri/formatter'
+
 class RDoc::RI::Driver
   class Error < RDoc::RI::Error; end
   class NotFoundError < Error
@@ -28,16 +29,17 @@ class RDoc::RI::Driver
   # An RDoc::RI::Store for each entry in the RI path
   attr_accessor :stores
   def initialize names
-    options = {}
-    options[:width] = 72
-    options[:use_cache] = true
-    options[:profile] = false
-    # By default all standard paths are used.
-    options[:use_system] = true
-    options[:use_site] = true
-    options[:use_home] = true
-    options[:use_gems] = true
-    options[:extra_doc_dirs] = []
+    options = {
+      :width => 72,
+      :use_cache => true,
+      :profile => false,
+    # By default all standard paths are used.,
+      :use_system => true,
+      :use_site => true,
+      :use_home => true,
+      :use_gems => true,
+      :extra_doc_dirs => []
+    }
     @paging = false
     @classes = nil
     @formatter_klass = options[:formatter]
