@@ -588,11 +588,13 @@ if __FILE__ == $0
   # Call this to do an autocomplete of class names
   # ri.list_known_classes ARGV
 
-  # This one works best for all cases
-  if ARGV.first == '--doc' # show
-    ri.display_name ARGV[1]
-  elsif ARGV.first == '--symbols'
-    ri.display_class_symbols ARGV[1]
+  # 
+  if ARGV.first =~ /\.$/
+    # search for doc by putting '.' at end 
+    ri.display_name ARGV[0][0..-2]
+  elsif ARGV.first =~ /\*$/
+    # search for all symbols by putting '*' at end of name
+    ri.display_class_symbols ARGV[0][0..-2]
   else
     ri.display_matches ARGV.first
   end
