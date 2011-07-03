@@ -55,8 +55,7 @@ class RDoc::RI::Driver
       store.load_cache
       @stores << store
     end
-    # @docs_dirs is IMPORTANT
-    #puts @doc_dirs
+    # puts @docs_dirs to see why ri is not finding something
     @list_doc_dirs = false
     @interactive = false
   end
@@ -208,9 +207,9 @@ class RDoc::RI::Driver
       end
       completions.push(*methods)
     end
-    c = completions.sort.uniq
-    puts c.inspect
-    c
+    #c = completions.sort.uniq
+    #puts c.inspect
+    completions.sort.uniq
   end
 
   # Converts +document+ to text and writes it to the pager
@@ -248,6 +247,7 @@ class RDoc::RI::Driver
       class_methods    = store.class_methods[klass.full_name]
       instance_methods = store.instance_methods[klass.full_name]
       attributes       = store.attributes[klass.full_name]
+
       if comment.empty? and !(instance_methods or class_methods) then
         also_in << store
         next
@@ -273,8 +273,6 @@ class RDoc::RI::Driver
         end)
         out << list
       end
-      # TODO These should generate the drop downS
-      #
       add_method_list out, class_methods,    'Class methods'
       add_method_list out, instance_methods, 'Instance methods'
       add_method_list out, attributes,       'Attributes'
@@ -283,6 +281,50 @@ class RDoc::RI::Driver
     add_also_in out, also_in
     display out
   end
+
+  def display_class_symbols name
+    puts "++++ display class symbols +++"
+    return if name =~ /#|\./
+    klasses = []
+    includes = []
+    found = @stores.map do |store|
+      begin
+        klass = store.load_class name
+        klasses  << klass
+        includes << [klass.includes, store] if klass.includes
+        [store, klass]
+      rescue Errno::ENOENT
+      end
+    end.compact
+    return if found.empty?
+    includes.reject! do |modules,| modules.empty? end
+    out = RDoc::Markup::Document.new
+    found.each do |store, klass|
+      comment = klass.comment
+      class_methods    = store.class_methods[klass.full_name]
+      instance_methods = store.instance_methods[klass.full_name]
+      attributes       = store.attributes[klass.full_name]
+      unless klass.constants.empty? then
+        out << RDoc::Markup::Heading.new(1, "Constants:")
+        out << RDoc::Markup::BlankLine.new
+        list = RDoc::Markup::List.new :NOTE
+        constants = klass.constants.sort_by { |constant| constant.name }
+        list.push(*constants.map do |constant|
+          parts = constant.comment.parts if constant.comment
+          parts << RDoc::Markup::Paragraph.new('[not documented]') if
+            parts.empty?
+          RDoc::Markup::ListItem.new(constant.name, *parts)
+        end)
+        out << list
+      end
+      add_method_list out, class_methods,    'Class methods'
+      add_method_list out, instance_methods, 'Instance methods'
+      add_method_list out, attributes,       'Attributes'
+      out << RDoc::Markup::BlankLine.new
+    end
+    display out
+  end
+
 
   # Outputs formatted RI data for method +name+
   def display_method name
@@ -615,9 +657,17 @@ end
     #raise
     abort e.message
   end
+
+  def all_classes
+  end
+
 end
+
+
+
 if __FILE__ == $0
   #puts RDoc::RI::Driver.run ARGV
   ri = RDoc::RI::Driver.new  ARGV
-  ri.run 
+  #ri.run 
+  ri.display_class_symbols ARGV.first
 end
