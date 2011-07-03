@@ -13,7 +13,7 @@ require 'rdoc/ri/paths'
 require 'rdoc/markup'
 require 'rdoc/markup/formatter'
 require 'rdoc/text'
-##
+
 # For RubyGems backwards compatibility
 require 'rdoc/ri/formatter'
 class RDoc::RI::Driver
@@ -24,7 +24,7 @@ class RDoc::RI::Driver
       "Nothing known about #{super}"
     end
   end
-  ##
+
   # An RDoc::RI::Store for each entry in the RI path
   attr_accessor :stores
   def initialize names
@@ -58,7 +58,7 @@ class RDoc::RI::Driver
     @list_doc_dirs = false
     @interactive = false
   end
-  ##
+
   # Adds paths for undocumented classes +also_in+ to +out+
   def add_also_in out, also_in
     return if also_in.empty?
@@ -70,7 +70,7 @@ class RDoc::RI::Driver
     end
     out << paths
   end
-  ##
+
   # Adds a class header to +out+ for class +name+ which is described in
   # +classes+.
   def add_class out, name, classes
@@ -85,12 +85,12 @@ class RDoc::RI::Driver
     out << RDoc::Markup::Heading.new(1, heading)
     out << RDoc::Markup::BlankLine.new
   end
-  ##
+
   # Adds "(from ...)" to +out+ for +store+
   def add_from out, store
     out << RDoc::Markup::Paragraph.new("(from #{store.friendly_path})")
   end
-  ##
+
   # Adds +includes+ to +out+
   def add_includes out, includes
     return if includes.empty?
@@ -125,7 +125,7 @@ class RDoc::RI::Driver
       end
     end
   end
-  ##
+
   # Adds a list of +methods+ to +out+ with a heading of +name+
   def add_method_list out, methods, name
     return unless methods
@@ -138,7 +138,7 @@ class RDoc::RI::Driver
     end)
     out << RDoc::Markup::BlankLine.new
   end
-  ##
+
   # Returns ancestor classes of +klass+
   def ancestors_of klass
     ancestors = []
@@ -159,11 +159,11 @@ class RDoc::RI::Driver
     end
     ancestors.reverse
   end
-  ##
+
   # For RubyGems backwards compatibility
   def class_cache # :nodoc:
   end
-  ##
+
   # Hash mapping a known class or module to the stores it can be loaded from
   def classes
     return @classes if @classes
@@ -177,7 +177,7 @@ class RDoc::RI::Driver
     end
     @classes
   end
-  ##
+
   # Completes +name+ based on the caches.  For Readline
   def complete name
     klasses = classes.keys
@@ -210,7 +210,7 @@ class RDoc::RI::Driver
     puts c.inspect
     c
   end
-  ##
+
   # Converts +document+ to text and writes it to the pager
   def display document
     puts "+++++ display document ++++"
@@ -219,7 +219,7 @@ class RDoc::RI::Driver
       io.write text
     end
   end
-  ##
+
   # Outputs formatted RI data for class +name+.  Groups undocumented classes
   def display_class name
     puts "++++ display class +++"
@@ -281,7 +281,7 @@ class RDoc::RI::Driver
     add_also_in out, also_in
     display out
   end
-  ##
+
   # Outputs formatted RI data for method +name+
   def display_method name
     found = load_methods_matching name
@@ -310,7 +310,7 @@ class RDoc::RI::Driver
     end
     display out
   end
-  ##
+
   # Outputs formatted RI data for the class or method +name+.
   #
   # Returns true if +name+ was found, false if it was not an alternative could
@@ -335,7 +335,7 @@ end
     end
     false
   end
-  ##
+
   # Displays each name in +name+
   def display_names names
     names.each do |name|
@@ -343,7 +343,7 @@ end
       display_name name
     end
   end
-  ##
+
   # Expands abbreviated klass +klass+ into a fully-qualified class.  "Zl::Da"
   # will be expanded to Zlib::DataError.
   def expand_class klass
@@ -359,7 +359,7 @@ end
       expanded.dup
     end
   end
-  ##
+
   # Expands the class portion of +name+ into a fully-qualified class.  See
   # #expand_class.
   def expand_name name
@@ -367,7 +367,7 @@ end
     return [selector, method].join if klass.empty?
     "#{expand_class klass}#{selector}#{method}"
   end
-  ##
+
   # Filters the methods in +found+ trying to find a match for +name+.
   def filter_methods found, name
     regexp = name_regexp name
@@ -377,7 +377,7 @@ end
     return filtered unless filtered.empty?
     found
   end
-  ##
+
   # Yields items matching +name+ including the store they were found in, the
   # class being searched for, the class they were found in (an ancestor) the
   # types of methods to look up (from #method_type), and the method name being
@@ -410,14 +410,14 @@ end
     end
     self
   end
-  ##
+
   # Creates a new RDoc::Markup::Formatter.  If a formatter is given with -f,
   # use it.  If we're outputting to a pager, use bs, otherwise ansi.
   def formatter(io)
     RDoc::Markup::ToRdoc.new
     #RDoc::Markup::ToAnsi.new
   end
-  ##
+
   # Runs ri interactively using Readline if it is available.
   def interactive
     puts "\nEnter the method name you want to look up."
@@ -450,7 +450,7 @@ end
     puts $!
     exit
   end
-  ##
+
   # Is +file+ in ENV['PATH']?
   def in_path? file
     return true if file =~ %r%\A/% and File.exist? file
@@ -458,7 +458,7 @@ end
       File.exist? File.join(path, file)
     end
   end
-  ##
+
   # Lists classes known to ri starting with +names+.  If +names+ is empty all
   # known classes are shown.
   def list_known_classes names = []
@@ -486,7 +486,7 @@ end
       io.puts classes.join("\n")
     end
   end
-  ##
+
   # Returns an Array of methods matching +name+
   def list_methods_matching name
     found = []
@@ -513,7 +513,7 @@ end
     end
     found.uniq
   end
-  ##
+
   # Loads RI data for method +name+ on +klass+ from +store+.  +type+ and
   # +cache+ indicate if it is a class or instance method.
   def load_method store, cache, klass, type, name
@@ -525,7 +525,7 @@ end
     return unless method
     store.load_method klass, "#{type}#{method}"
   end
-  ##
+
   # Returns an Array of RI data for methods matching +name+
   def load_methods_matching name
     found = []
@@ -539,7 +539,7 @@ end
     end
     found.reject do |path, methods| methods.empty? end
   end
-  ##
+
   # Returns the type of method (:both, :instance, :class) for +selector+
   def method_type selector
     case selector
@@ -548,7 +548,7 @@ end
     else               :class
     end
   end
-  ##
+
   # Returns a regular expression for +name+ that will match an
   # RDoc::AnyMethod's name.
   def name_regexp name
@@ -566,7 +566,7 @@ end
   def paging?
     false
   end
-  ##
+
   # Extracts the class, selector and method name parts from +name+ like
   # Foo::Bar#baz.
   #
@@ -592,7 +592,7 @@ end
     klass = parts.join
     [klass, type, meth]
   end
-  ##
+
   # Looks up and displays ri data according to the options given.
   def run
     #puts [@list_doc_dirs, @doc_dirs].inspect
