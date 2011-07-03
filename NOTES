@@ -69,8 +69,12 @@ Sequel::Model::Associations::DatasetMethods
 
 Almost done:
 
-Mabye put a period at the end if a class to look up exact name
-And if there is a method appended to a class, we can know it is an exact lookup
+# for command line tool?
+
+  Mabye put a period at the end if a class to look up exact name
+  And if there is a method appended to a class, we can know it is an exact lookup
+
+  - no, its easier just to use a flag
 
 
 other possible tasks:
@@ -81,7 +85,13 @@ other possible tasks:
 - open rdoc html page
 - launch a google search
 - search stack overflow
+- dependency on a certain version of RDoc!; use 'gem' to load a specific version
+- indicate if there is actually some documentation on a method or class
 
+
+I wonder if ri is fast enough to autocomplete the method matches
+
+- maybe wait until 3 characters?
 
 
 
