@@ -33,23 +33,23 @@ class RDoc::RI::Driver
       :width => 72,
       :use_cache => true,
       :profile => false,
-    # By default all standard paths are used.,
       :use_system => true,
       :use_site => true,
       :use_home => true,
       :use_gems => true,
       :extra_doc_dirs => []
     }
-    @paging = false
     @classes = nil
     @formatter_klass = options[:formatter]
     @names = names
     @list = options[:list]
     @doc_dirs = []
     @stores   = []
-    RDoc::RI::Paths.each(options[:use_system], options[:use_site],
-                                   options[:use_home], options[:use_gems],
-                                   *options[:extra_doc_dirs]) do |path, type|
+    RDoc::RI::Paths.each(options[:use_system], 
+                         options[:use_site],
+                         options[:use_home], 
+                         options[:use_gems],
+                         *options[:extra_doc_dirs]) do |path, type|
       @doc_dirs << path
       store = RDoc::RI::Store.new path, type
       store.load_cache
@@ -477,7 +477,7 @@ end
     end
     return classes
     page do |io|
-      if paging? or io.tty? then
+      if io.tty? then
         if names.empty? then
           io.puts "Classes and Modules known to ri:"
         else
@@ -564,9 +564,6 @@ end
   end
   def page
     yield $stdout
-  end
-  def paging?
-    false
   end
 
   # Extracts the class, selector and method name parts from +name+ like
