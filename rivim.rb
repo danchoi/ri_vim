@@ -578,13 +578,15 @@ end
 
 if __FILE__ == $0
   ri = RDoc::RI::Driver.new  ARGV
-  if ARGV.first =~ /\.$/
-    # display exact match by putting '.' at end 
-    ri.display_name ARGV[0][0..-2]
+  arg =  ARGV.first
+  if arg =~ /\.$/ ||  arg =~ /(#|::)[^A-Z]/ 
+    # Force display exact match (esp of class or module) by putting '.' at end 
+    # Note that some methods begin with capital letter?
+    ri.display_name arg.sub(/\.$/, '')
   elsif ARGV.first =~ /\*$/
     # list all symbols for class or module '*' at end of name
-    ri.display_class_symbols ARGV[0][0..-2]
+    ri.display_class_symbols arg[0..-2]
   else
-    ri.display_matches ARGV.first
+    ri.display_matches arg
   end
 end
