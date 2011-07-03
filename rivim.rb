@@ -333,16 +333,6 @@ class RDoc::RI::Driver
         display_method name 
     end
     true
-  rescue NotFoundError
-    matches = list_methods_matching_orig name if name =~ /::|#|\./
-    matches = classes.keys.grep(/^#{name}/) if matches.empty?
-    raise if matches.empty?
-    page do |io|
-      io.puts "#{name} not found, maybe you meant:"
-      io.puts
-      io.puts matches.join("\n")
-    end
-    false
   end
 
 
@@ -647,7 +637,11 @@ if __FILE__ == $0
   # ri.list_known_classes ARGV
 
   # This one works best for all cases
-  ri.display_matches ARGV.first
+  if ARGV.first == '-s' # show
+    ri.display_name ARGV[1]
+  else
+    ri.display_matches ARGV.first
+  end
 
 
 
