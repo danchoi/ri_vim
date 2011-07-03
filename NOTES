@@ -35,6 +35,35 @@ If searching for method, don't autocomplete at first
 ENTER to submit query, then autocomplete to select from the resutling matches?
 
 
+Example of method search:
 
+[choi kaja~/p/vim-ri]$ ruby -Ilib rivim.rb task
+
+task             Capistrano::Configuration::Namespaces#
+task             Rake::DSL#
+task_call_frames Capistrano::Configuration::Execution#
+task_defined?    Rake::Task::
+task_help        Thor::
+task_list        Capistrano::Configuration::Namespaces#
+tasks            Capistrano::Configuration::Namespaces#
+tasks            Rake::NameSpace#
+tasks            Rake::Task::
+tasks            Rake::TaskManager#
+tasks            Thor::Base::ClassMethods#
+
+
+Need ability to jump up to parent
+
+
+[choi kaja~/p/vim-ri]$ ruby -Ilib rivim.rb Sequel::Model
+
+Sequel::Model
+Sequel::Model::Associations
+Sequel::Model::Associations::AssociationDatasetMethods
+Sequel::Model::Associations::AssociationReflection
+Sequel::Model::Associations::ClassMethods
+Sequel::Model::Associations::DatasetMethods
+
+- need to tab complete each nesting of namespace
 
 

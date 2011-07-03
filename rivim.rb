@@ -366,8 +366,6 @@ class RDoc::RI::Driver
     end
     true
   rescue NotFoundError
-    # TODO use this!
-    #
     matches = list_methods_matching name if name =~ /::|#|\./
     matches = classes.keys.grep(/^#{name}/) if matches.empty?
     raise if matches.empty?
