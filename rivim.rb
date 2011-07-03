@@ -55,7 +55,6 @@ class RDoc::RI::Driver
       store.load_cache
       @stores << store
     end
-    # puts @docs_dirs to see why ri is not finding something
     @list_doc_dirs = false
     @interactive = false
   end
@@ -310,27 +309,11 @@ class RDoc::RI::Driver
     display out
   end
 
-  def display_classes_with_method name
-    found = load_methods_matching name
-    filtered = filter_methods found, name
-    filtered.each do |store, methods|
-      methods.each do |method|
-        source = "(from #{store.friendly_path})"
-        puts "#{method.parent_name} #{source}"
-      end
-    end
-
-  end
-
-
   # Outputs formatted RI data for the class or method +name+.
-  #
-  # Returns true if +name+ was found, false if it was not an alternative could
-  # be guessed, raises an error if +name+ couldn't be guessed.
   def display_name name
     return true if display_class name
     if name =~ /::|#|\./
-        display_method name 
+      display_method name 
     end
     true
   end
@@ -589,32 +572,6 @@ class RDoc::RI::Driver
     [klass, type, meth]
   end
 
-  # Looks up and displays ri data according to the options given.
-  def run
-    #puts [@list_doc_dirs, @doc_dirs].inspect
-    puts @names.inspect
-      display_name @names.first
-      display_method @names.first
-      puts 'MARK 1-' 
-      puts '-' * 80
-       # list_known_classes @names
-      return
-    if @list_doc_dirs then
-      puts @doc_dirs
-    elsif @list then
-      list_known_classes @names
-    elsif @interactive or @names.empty? then
-      interactive
-    else
-      display_names @names
-    end
-  rescue NotFoundError => e
-    #raise
-    abort e.message
-  end
-
-  def all_classes
-  end
 
 end
 
@@ -627,18 +584,15 @@ if __FILE__ == $0
 
   # For vim plugin:
   #
-  # Call this to show all symbols for a class name:
-  #ri.display_class_symbols ARGV.first
-
-  # Call this to show all classes that implement a method:
-  #ri.display_classes_with_method ARGV.first
 
   # Call this to do an autocomplete of class names
   # ri.list_known_classes ARGV
 
   # This one works best for all cases
-  if ARGV.first == '-s' # show
+  if ARGV.first == '--doc' # show
     ri.display_name ARGV[1]
+  elsif ARGV.first == '--symbols'
+    ri.display_class_symbols ARGV[1]
   else
     ri.display_matches ARGV.first
   end
