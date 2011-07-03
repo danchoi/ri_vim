@@ -345,6 +345,19 @@ class RDoc::RI::Driver
     display out
   end
 
+  def display_classes_with_method name
+    found = load_methods_matching name
+    filtered = filter_methods found, name
+    filtered.each do |store, methods|
+      methods.each do |method|
+        source = "(from #{store.friendly_path})"
+        puts "#{method.parent_name} #{source}"
+      end
+    end
+
+  end
+
+
   # Outputs formatted RI data for the class or method +name+.
   #
   # Returns true if +name+ was found, false if it was not an alternative could
@@ -659,5 +672,13 @@ if __FILE__ == $0
   #puts RDoc::RI::Driver.run ARGV
   ri = RDoc::RI::Driver.new  ARGV
   #ri.run 
-  ri.display_class_symbols ARGV.first
+
+  # For vim plugin:
+  #
+  # Call this to show all symbols for a class name:
+  #ri.display_class_symbols ARGV.first
+
+  # Call this to show all classes that implement a method:
+  # ri.display_classes_with_method ARGV.first
+
 end
