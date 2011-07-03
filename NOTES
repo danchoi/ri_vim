@@ -67,3 +67,24 @@ Sequel::Model::Associations::DatasetMethods
 - need to tab complete each nesting of namespace
 
 
+Almost done:
+
+Mabye put a period at the end if a class to look up exact name
+And if there is a method appended to a class, we can know it is an exact lookup
+
+
+other possible tasks:
+- vimscript: incremental autoocomplete with nested modules
+- jump up to parent from a document
+- syntax highlighting rdoc
+- jump to line in code?
+- open rdoc html page
+- launch a google search
+- search stack overflow
+
+
+
+
+
+
+
