@@ -179,38 +179,6 @@ class RDoc::RI::Driver
     @classes
   end
 
-  # Completes +name+ based on the caches.  For Readline
-  def complete name
-    klasses = classes.keys
-    completions = []
-    klass, selector, method = parse_name name
-    # may need to include Foo when given Foo::
-    klass_name = method ? name : klass
-    if name !~ /#|\./ then
-      completions = klasses.grep(/^#{klass_name}[^:]*$/)
-      completions.concat klasses.grep(/^#{name}[^:]*$/) if name =~ /::$/
-      completions << klass if classes.key? klass # to complete a method name
-    elsif selector then
-      completions << klass if classes.key? klass
-    elsif classes.key? klass_name then
-      completions << klass_name
-    end
-    if completions.include? klass and name =~ /#|\.|::/ then
-      methods = list_methods_matching name
-      if not methods.empty? then
-        # remove Foo if given Foo:: and a method was found
-        completions.delete klass
-      elsif selector then
-        # replace Foo with Foo:: as given
-        completions.delete klass
-        completions << "#{klass}#{selector}"
-      end
-      completions.push(*methods)
-    end
-    #c = completions.sort.uniq
-    #puts c.inspect
-    completions.sort.uniq
-  end
 
   # Converts +document+ to text and writes it to the pager
   def display document
@@ -502,39 +470,6 @@ class RDoc::RI::Driver
   def formatter(io)
     RDoc::Markup::ToRdoc.new
     #RDoc::Markup::ToAnsi.new
-  end
-
-  # Runs ri interactively using Readline if it is available.
-  def interactive
-    puts "\nEnter the method name you want to look up."
-    if defined? Readline then
-      Readline.completion_proc = method :complete
-      puts "You can use tab to autocomplete."
-    end
-    puts "Enter a blank line to exit.\n\n"
-    loop do
-      name = if defined? Readline then
-               Readline.readline ">> "
-             else
-               print ">> "
-               $stdin.gets
-             end
-      puts name
-      return if name.nil? or name.empty?
-      name = expand_name name.strip
-      puts name
-      x = list_methods_matching name
-      puts x
-      puts list_known_classes([name])
-      begin
-        display_name name
-      rescue NotFoundError => e
-        puts e.message
-      end
-    end
-  rescue Interrupt
-    puts $!
-    exit
   end
 
   # Is +file+ in ENV['PATH']?
