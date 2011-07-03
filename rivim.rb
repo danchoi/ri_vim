@@ -334,7 +334,7 @@ class RDoc::RI::Driver
     end
     true
   rescue NotFoundError
-    matches = list_methods_matching name if name =~ /::|#|\./
+    matches = list_methods_matching_orig name if name =~ /::|#|\./
     matches = classes.keys.grep(/^#{name}/) if matches.empty?
     raise if matches.empty?
     page do |io|
@@ -350,7 +350,7 @@ class RDoc::RI::Driver
   def display_matches name
     matches = []
     if name =~ /^[^A-Z]/
-      xs = list_methods_matching2 name 
+      xs = list_methods_matching name 
       longest_method = xs.inject("") {|memo, x|
         x[0].size > memo.size ? x[0] : memo
       }
@@ -362,7 +362,7 @@ class RDoc::RI::Driver
     puts matches.sort.join("\n")
   end
 
-  def list_methods_matching2 name
+  def list_methods_matching name
     found = []
     find_methods name do |store, klass, ancestor, types, method|
       if types == :instance or types == :both then
@@ -496,7 +496,7 @@ class RDoc::RI::Driver
   end
 
   # Returns an Array of methods matching +name+
-  def list_methods_matching name
+  def list_methods_matching_orig name
     found = []
     find_methods name do |store, klass, ancestor, types, method|
       if types == :instance or types == :both then

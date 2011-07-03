@@ -87,11 +87,12 @@ other possible tasks:
 - search stack overflow
 - dependency on a certain version of RDoc!; use 'gem' to load a specific version
 - indicate if there is actually some documentation on a method or class
-
+- keep a history of recently seen? or bookmarks?
 
 I wonder if ri is fast enough to autocomplete the method matches
 
-- maybe wait until 3 characters?
+
+
 
 
 
