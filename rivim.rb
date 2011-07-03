@@ -580,7 +580,8 @@ class RDoc::RI::Driver
   def parse_name(name)
     parts = name.split(/(::|#|\.)/)
     if parts.length == 1 then
-      if parts.first =~ /^[a-z]/ then
+      # Daniel Choi fixed this line from the official rdoc 
+      if parts.first =~ /^[a-z=<|^&*-+\/\[]/ then
         type = '.'
         meth = parts.pop
       else
