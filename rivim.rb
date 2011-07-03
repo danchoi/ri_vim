@@ -214,7 +214,6 @@ class RDoc::RI::Driver
 
   # Converts +document+ to text and writes it to the pager
   def display document
-    puts "+++++ display document ++++"
     page do |io|
       text = document.accept formatter(io)
       io.write text
@@ -223,7 +222,6 @@ class RDoc::RI::Driver
 
   # Outputs formatted RI data for class +name+.  Groups undocumented classes
   def display_class name
-    puts "++++ display class +++"
     return if name =~ /#|\./
     klasses = []
     includes = []
@@ -283,7 +281,6 @@ class RDoc::RI::Driver
   end
 
   def display_class_symbols name
-    puts "++++ display class symbols +++"
     return if name =~ /#|\./
     klasses = []
     includes = []
@@ -364,10 +361,9 @@ class RDoc::RI::Driver
   # be guessed, raises an error if +name+ couldn't be guessed.
   def display_name name
     return true if display_class name
-if name =~ /::|#|\./
-    puts name.inspect
-    display_method name 
-end
+    if name =~ /::|#|\./
+        display_method name 
+    end
     true
   rescue NotFoundError
     # TODO use this!
@@ -382,6 +378,51 @@ end
     end
     false
   end
+
+
+  # Use for universal autocomplete
+  def display_matches name
+    matches = []
+    if name =~ /^[^A-Z]/
+      xs = list_methods_matching2 name 
+      longest_method = xs.inject("") {|memo, x|
+        x[0].size > memo.size ? x[0] : memo
+      }
+      matches = xs.map {|x|
+        "%-#{longest_method.size}s %s%s" % [x[0], x[1], x[2]]
+      }
+    end
+    matches = classes.keys.grep(/^#{name}/) if matches.empty?
+    puts matches.sort.join("\n")
+  end
+
+  def list_methods_matching2 name
+    found = []
+    find_methods name do |store, klass, ancestor, types, method|
+      if types == :instance or types == :both then
+        methods = store.instance_methods[ancestor]
+        if methods then
+          matches = methods.grep(/^#{Regexp.escape method.to_s}/)
+          matches = matches.map do |match|
+            [match, klass, '#']
+          end
+          found.push(*matches)
+        end
+      end
+      if types == :class or types == :both then
+        methods = store.class_methods[ancestor]
+        next unless methods
+        matches = methods.grep(/^#{Regexp.escape method.to_s}/)
+        matches = matches.map do |match|
+          [match, klass, '::']
+        end
+        found.push(*matches)
+      end
+    end
+    found.uniq
+  end
+
+
 
   # Displays each name in +name+
   def display_names names
@@ -509,29 +550,16 @@ end
   # Lists classes known to ri starting with +names+.  If +names+ is empty all
   # known classes are shown.
   def list_known_classes names = []
-    names = []
     classes = []
     stores.each do |store|
       classes << store.modules
     end
-    puts classes
     classes = classes.flatten.uniq.sort
     unless names.empty? then
       filter = Regexp.union names.map { |name| /^#{name}/ }
       classes = classes.grep filter
     end
-    return classes
-    page do |io|
-      if io.tty? then
-        if names.empty? then
-          io.puts "Classes and Modules known to ri:"
-        else
-          io.puts "Classes and Modules starting with #{names.join ', '}:"
-        end
-        io.puts
-      end
-      io.puts classes.join("\n")
-    end
+    puts classes.join("\n")
   end
 
   # Returns an Array of methods matching +name+
@@ -679,6 +707,14 @@ if __FILE__ == $0
   #ri.display_class_symbols ARGV.first
 
   # Call this to show all classes that implement a method:
-  # ri.display_classes_with_method ARGV.first
+  #ri.display_classes_with_method ARGV.first
+
+  # Call this to do an autocomplete of class names
+  # ri.list_known_classes ARGV
+
+  # This one works best for all cases
+  ri.display_matches ARGV.first
+
+
 
 end

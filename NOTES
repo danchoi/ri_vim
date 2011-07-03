@@ -3,4 +3,38 @@
 rvm docs generate-ri
 
 
+------------------------------------------------------------------------
+Sun Jul  3 16:36:47 EDT 2011
+
+done:
+- for dropdown: find all symbols for a class
+- method search? find all classes that implement a method
+
+
+to do:
+- for dropdown: all classes
+
+
+UI:
+
+  There should be one universal search box
+
+  If the user enters a capital letter, we search for Clsas
+
+  If the user enters a lower case letter, we search for method
+  - Then the user picks a classname, then we look that up
+
+  Least important is searching for symbols in a class. There will usually be a
+  class intro somewhere.
+
+  Maybe check for .comment
+
+
+If searching for method, don't autocomplete at first
+
+ENTER to submit query, then autocomplete to select from the resutling matches?
+
+
+
+
 
