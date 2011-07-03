@@ -312,7 +312,7 @@ class RDoc::RI::Driver
       symbols << attributes.map {|x| "#{x} (a)"}
     end
 
-    puts symbols.flatten.sort_by {|x| x.split(/\s/)[1] }.join("\n")
+    puts symbols.flatten.sort.join("\n")
   end
 
 
