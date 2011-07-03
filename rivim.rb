@@ -1,3 +1,6 @@
+# Original code taken from the rdoc gem
+# Modified for rdoc_vim gem by Daniel Choi <dhchoi@gmail.com>
+#
 require 'abbrev'
 require 'optparse'
 begin
@@ -571,29 +574,17 @@ class RDoc::RI::Driver
     klass = parts.join
     [klass, type, meth]
   end
-
-
 end
 
-
-
 if __FILE__ == $0
-  #puts RDoc::RI::Driver.run ARGV
   ri = RDoc::RI::Driver.new  ARGV
-  #ri.run 
-
-  # For vim plugin:
-  #
   if ARGV.first =~ /\.$/
     # display exact match by putting '.' at end 
     ri.display_name ARGV[0][0..-2]
   elsif ARGV.first =~ /\*$/
-    # search for all symbols by putting '*' at end of name
+    # list all symbols for class or module '*' at end of name
     ri.display_class_symbols ARGV[0][0..-2]
   else
     ri.display_matches ARGV.first
   end
-
-
-
 end
