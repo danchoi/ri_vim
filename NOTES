@@ -92,5 +92,13 @@ other possible tasks:
 I wonder if ri is fast enough to autocomplete the method matches
 
 
+NEXT:
+
+- see if we can get path to source
+  - also make sure we can get READMEs
+- Start writing VimScript
+
+LOWER PRIORITY
+- flag by whether there is documentation
 
 
