@@ -35,56 +35,21 @@ class RDoc::RI::Driver
   # An RDoc::RI::Store for each entry in the RI path
   attr_accessor :stores
 
-  def self.default_options
+  def initialize names
     options = {}
     options[:width] = 72
     options[:use_cache] = true
     options[:profile] = false
-
     # By default all standard paths are used.
     options[:use_system] = true
     options[:use_site] = true
     options[:use_home] = true
     options[:use_gems] = true
     options[:extra_doc_dirs] = []
-
-    return options
-  end
-
-  ##
-  # Dump +data_path+ using pp
-
-  def self.dump data_path
-    require 'pp'
-
-    open data_path, 'rb' do |io|
-      pp Marshal.load(io.read)
-    end
-  end
-
-  ##
-  # Parses +argv+ and returns a Hash of options
-
-  def self.process_args argv
-    options = default_options
-    options[:names] = argv
-    options[:width] ||= 72
-    options
-  end
-
-
-  def self.run argv = ARGV
-    options = process_args argv
-    ri = new options
-    ri.run
-  end
-
-  def initialize initial_options = {}
     @paging = false
     @classes = nil
-    options = self.class.default_options.update(initial_options)
     @formatter_klass = options[:formatter]
-    @names = options[:names]
+    @names = names
     @list = options[:list]
     @doc_dirs = []
     @stores   = []
@@ -314,6 +279,7 @@ class RDoc::RI::Driver
   # Converts +document+ to text and writes it to the pager
 
   def display document
+    puts "+++++ display document ++++"
     page do |io|
       text = document.accept formatter(io)
 
@@ -325,6 +291,7 @@ class RDoc::RI::Driver
   # Outputs formatted RI data for class +name+.  Groups undocumented classes
 
   def display_class name
+    puts "++++ display class +++"
     return if name =~ /#|\./
 
     klasses = []
@@ -392,6 +359,8 @@ class RDoc::RI::Driver
         out << list
       end
 
+      # TODO These should generate the drop downS
+      #
       add_method_list out, class_methods,    'Class methods'
       add_method_list out, instance_methods, 'Instance methods'
       add_method_list out, attributes,       'Attributes'
@@ -831,11 +800,15 @@ end
   # Looks up and displays ri data according to the options given.
 
   def run
+    
     #puts [@list_doc_dirs, @doc_dirs].inspect
     puts @names.inspect
       display_name @names.first
       display_method @names.first
+      
+      puts 'MARK 1-' 
       puts '-' * 80
+
        # list_known_classes @names
       return
     if @list_doc_dirs then
@@ -856,7 +829,10 @@ end
 
 
 if __FILE__ == $0
-  puts "TEST"
-  puts RDoc::RI::Driver.run ARGV
+  
+  #puts RDoc::RI::Driver.run ARGV
+  ri = RDoc::RI::Driver.new  ARGV
+  ri.run 
+
 
 end
