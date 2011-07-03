@@ -585,7 +585,7 @@ if __FILE__ == $0
   # For vim plugin:
   #
   if ARGV.first =~ /\.$/
-    # search for doc by putting '.' at end 
+    # display exact match by putting '.' at end 
     ri.display_name ARGV[0][0..-2]
   elsif ARGV.first =~ /\*$/
     # search for all symbols by putting '*' at end of name
