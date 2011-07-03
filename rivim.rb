@@ -298,31 +298,21 @@ class RDoc::RI::Driver
     end.compact
     return if found.empty?
     includes.reject! do |modules,| modules.empty? end
-    out = RDoc::Markup::Document.new
+    symbols = []
     found.each do |store, klass|
       comment = klass.comment
-      class_methods    = store.class_methods[klass.full_name]
-      instance_methods = store.instance_methods[klass.full_name]
-      attributes       = store.attributes[klass.full_name]
-      unless klass.constants.empty? then
-        out << RDoc::Markup::Heading.new(1, "Constants:")
-        out << RDoc::Markup::BlankLine.new
-        list = RDoc::Markup::List.new :NOTE
-        constants = klass.constants.sort_by { |constant| constant.name }
-        list.push(*constants.map do |constant|
-          parts = constant.comment.parts if constant.comment
-          parts << RDoc::Markup::Paragraph.new('[not documented]') if
-            parts.empty?
-          RDoc::Markup::ListItem.new(constant.name, *parts)
-        end)
-        out << list
-      end
-      add_method_list out, class_methods,    'Class methods'
-      add_method_list out, instance_methods, 'Instance methods'
-      add_method_list out, attributes,       'Attributes'
-      out << RDoc::Markup::BlankLine.new
+      class_methods    = store.class_methods[klass.full_name]  || []
+      instance_methods = store.instance_methods[klass.full_name] || []
+      attributes       = store.attributes[klass.full_name] || []
+      attributes = (attributes || []).map {|x| x.split(/\s+/)}
+      #constants = klass.constants.sort_by { |constant| constant.name }
+
+      symbols << class_methods.map {|x| "#{x} (c)"}
+      symbols << instance_methods.map {|x| "#{x} (i)"}
+      symbols << attributes.map {|x| "#{x} (a)"}
     end
-    display out
+
+    puts symbols.flatten.sort_by {|x| x.split(/\s/)[1] }.join("\n")
   end
 
 
