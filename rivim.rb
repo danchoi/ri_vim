@@ -584,11 +584,6 @@ if __FILE__ == $0
 
   # For vim plugin:
   #
-
-  # Call this to do an autocomplete of class names
-  # ri.list_known_classes ARGV
-
-  # 
   if ARGV.first =~ /\.$/
     # search for doc by putting '.' at end 
     ri.display_name ARGV[0][0..-2]
