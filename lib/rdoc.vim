@@ -114,11 +114,11 @@ function! s:doSearch()
     let parts = split(query)
     let query = get(parts, 1)
   endif
+  wincmd p
   call s:displayDoc(query)
 endfunction
 
 function! s:displayDoc(query)
-  wincmd p
   let bcommand = s:rdoc_tool.'-d '.shellescape(a:query)
   let res = s:runCommand(bcommand)
   " We're caching is strictly so we can use CTRL-o and CTRL-i
