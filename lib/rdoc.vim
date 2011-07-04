@@ -157,6 +157,8 @@ function! s:lookupNameUnderCursor()
   endif
   if query =~ '^\.'
     let query = classname.query
+  elseif query =~ '^#'
+    let query = classname.query
   elseif query =~ '^[^A-Z]'
     let query = classname.'#'.query
   endif
