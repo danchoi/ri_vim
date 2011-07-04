@@ -199,12 +199,13 @@ Almost there. Next:
   open rdoc html
   drop down class method autocomplete 
   - multilevel autocomplete
+    - this is definitely a navigation gap
     - match 1st level module name first, then rest
   - put recently seen at top of autocomplete
     - or put some hierachy navigation
-  - <em> tag syntax color
   - fail gracefully if no search result
   - <tt> should be dark against dark bg, light against light
 
+BUG
 - Time is missing instance and class methods -- why?
 
