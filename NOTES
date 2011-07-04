@@ -144,5 +144,10 @@ should restore the direct method search
   - that means that e.g. much of a consulting rails project should be pushed
     down into a gem
 
+- TODO
+  To search readmes, try a different approach. Just let use search not by Ruby name, but 
+  by gem name, which is like 'activerecord". This is simpler to implement
+
+
 
 
