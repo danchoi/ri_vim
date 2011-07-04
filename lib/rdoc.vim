@@ -130,12 +130,18 @@ endfunction
 
 function! s:lookupNameUnderCursor()
   let query = substitute(expand("<cWORD>"), '[.,]$', '', '')
-  if query =~ '^\.'
-    let query = s:lastQuery.query
-  elseif query =~ '[^A-Z]'
-    let query = s:lastQuery.'#'.query
+  " look up class
+  let classname = ''
+  let x = matchstr(getline(1) , '= [A-Z]\S\+')
+  if x != ''
+    let classname = substitute(x, "^= ", '', '')
   endif
-  echo query
+  if query =~ '^\.'
+    let query = classname.query
+  elseif query =~ '^[^A-Z]'
+    let query = classname.'#'.query
+  endif
+  echom query
   call s:displayDoc(query)
 endfunction
 

@@ -155,8 +155,7 @@ I think for RDoc history, we also need the last line number so we can jump to it
 NEXT 
 - some syntax higlighting
 - remember to note in doc that TAB is equal to C-X C-u
-- drop down history list?
-- bookmarks?
+- bookmarks? (LATER)
 - readmes
 - straight to gem code
 
@@ -185,5 +184,18 @@ Something is definitely wrong with the ri generator!
 Compare the darkfish html output of String#scan with the ri 
 
 stuff is missing the the stuff in the code example
+
+
+OK fixed the problem of the missing stuff: solution was to use 
+    
+    gem 'rdoc' 
+
+at top
+
+Almost there. Next:
+
+  syntax highlighting
+  readmes
+  chdir to gem dir
 
 
