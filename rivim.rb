@@ -251,38 +251,6 @@ class RDoc::RI::Driver
     display out
   end
 
-  def display_class_symbols name
-    return if name =~ /#|\./
-    klasses = []
-    includes = []
-    found = @stores.map do |store|
-      begin
-        klass = store.load_class name
-        klasses  << klass
-        includes << [klass.includes, store] if klass.includes
-        [store, klass]
-      rescue Errno::ENOENT
-      end
-    end.compact
-    return if found.empty?
-    includes.reject! do |modules,| modules.empty? end
-    symbols = []
-    found.each do |store, klass|
-      comment = klass.comment
-      class_methods    = store.class_methods[klass.full_name]  || []
-      instance_methods = store.instance_methods[klass.full_name] || []
-      attributes       = store.attributes[klass.full_name] || []
-      attributes = (attributes || []).map {|x| x.split(/\s+/)}
-      #constants = klass.constants.sort_by { |constant| constant.name }
-
-      symbols << class_methods.map {|x| "#{x} (c)"}
-      symbols << instance_methods.map {|x| "#{x} (i)"}
-      symbols << attributes.map {|x| "#{x} (a)"}
-    end
-
-    puts symbols.flatten.sort.join("\n")
-  end
-
 
   # Outputs formatted RI data for method +name+
   def display_method name
@@ -556,9 +524,6 @@ if __FILE__ == $0
     ri.display_name ARGV[1]
   elsif ARGV.first =~ /^[^A-Z]/
     ri.display_method_matches ARGV.first
-  #elsif ARGV.first =~ /\*$/
-    # list all symbols for class or module '*' at end of name
-    # ri.display_class_symbols arg[0..-2]
   else
     ri.display_matches ARGV.first
   end
