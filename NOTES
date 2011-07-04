@@ -135,3 +135,6 @@ OK discovered that autocomplete can actually show a DEFINITION
 
 should restore the direct method search
 
+
+- over CTRL-O to go back in internal history list
+

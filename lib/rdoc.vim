@@ -31,8 +31,8 @@ function! RDocStatusLine()
 endfunction
 
 function! StartRDocQuery()
-  if getline(1) =~ '^= '
-    let line = s:selectionPrompt . getline(1)[2:-1]
+  if s:lastQuery != ''
+    let line = s:selectionPrompt . s:lastQuery
   else
     let line = s:selectionPrompt
   endif
@@ -130,6 +130,7 @@ function! s:doSearch()
     let parts = split(query)
     let query = get(parts, 1)
   endif
+  let s:lastQuery = query
   call s:open_doc_window()
   let bcommand = s:rdoc_tool.'-d '.shellescape(query)
   let res = s:runCommand(bcommand)
