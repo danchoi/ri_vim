@@ -141,9 +141,9 @@ func! s:syntaxLoad()
   syntax region h1  start="^="       end="\($\)" contains=@Spell
   syntax region h2  start="^=="      end="\($\)" contains=@Spell
   syntax region h3  start="^==="     end="\($\)" contains=@Spell
-  highlight link h1         String
-  highlight link h2         Type
-  highlight link h3         Type
+  highlight link h1         Constant
+  highlight link h2         Constant
+  highlight link h3         Constant
 endfunc
 
 function! s:lookupNameUnderCursor()
