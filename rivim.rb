@@ -335,7 +335,6 @@ class RDoc::RI::Driver
     puts matches.sort.join("\n")
   end
 
-
   def display_method_matches name
     matches = []
     xs = list_methods_matching name
@@ -371,37 +370,6 @@ class RDoc::RI::Driver
     found.uniq
   end
 
-  # Displays each name in +name+
-  def display_names names
-    names.each do |name|
-      name = expand_name name
-      display_name name
-    end
-  end
-
-  # Expands abbreviated klass +klass+ into a fully-qualified class.  "Zl::Da"
-  # will be expanded to Zlib::DataError.
-  def expand_class klass
-    klass.split('::').inject '' do |expanded, klass_part|
-      expanded << '::' unless expanded.empty?
-      short = expanded << klass_part
-      subset = classes.keys.select do |klass_name|
-        klass_name =~ /^#{expanded}[^:]*$/
-      end
-      abbrevs = Abbrev.abbrev subset
-      expanded = abbrevs[short]
-      raise NotFoundError, short unless expanded
-      expanded.dup
-    end
-  end
-
-  # Expands the class portion of +name+ into a fully-qualified class.  See
-  # #expand_class.
-  def expand_name name
-    klass, selector, method = parse_name name
-    return [selector, method].join if klass.empty?
-    "#{expand_class klass}#{selector}#{method}"
-  end
 
   # Filters the methods in +found+ trying to find a match for +name+.
   def filter_methods found, name

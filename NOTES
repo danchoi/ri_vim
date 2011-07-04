@@ -122,7 +122,9 @@ if a method name without a class, don't allow entering, revie the last autocompl
 
 PRIORITY
 - find READMEs
-- find standard Library rdoc- 
+- find standard Library rdoc => done, need patch, ask rdoc maintainer to patch
+- CTRL-O, CTRL-I
+- jump from method at bottom to class list to doc -> should be simple
 
 
 Got standard library ri docs generated. Bug in rdoc gem
@@ -137,4 +139,10 @@ should restore the direct method search
 
 
 - over CTRL-O to go back in internal history list
+
+- encourage internal rdoc generation for internal projects 
+  - that means that e.g. much of a consulting rails project should be pushed
+    down into a gem
+
+
 
