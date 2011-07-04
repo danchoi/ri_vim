@@ -326,14 +326,10 @@ class RDoc::RI::Driver
   # Use for universal autocomplete
   def display_matches name
     matches = []
-    if name =~ /^[^A-Z]/
-      xs = list_methods_matching name 
-      longest_method = xs.inject("") {|memo, x|
-        x[0].size > memo.size ? x[0] : memo
-      }
-      matches = xs.map {|x|
-        "%-#{longest_method.size}s %s%s" % [x[0], x[1], x[2]]
-      }
+    if name =~ /::|#|\./
+      matches = list_methods_matching_orig name
+      #longest_method = xs.inject("") {|memo, x| x[0].size > memo.size ? x[0] : memo }
+      #matches = xs.map {|x| "%-#{longest_method.size}s %s%s" % [x[0], x[1], x[2]] }
     end
     matches = classes.keys.grep(/^#{name}/) if matches.empty?
     puts matches.sort.join("\n")
@@ -364,8 +360,6 @@ class RDoc::RI::Driver
     end
     found.uniq
   end
-
-
 
   # Displays each name in +name+
   def display_names names
@@ -579,17 +573,13 @@ end
 
 if __FILE__ == $0
   ri = RDoc::RI::Driver.new  ARGV
-  arg =  ARGV.first
-  # format arg if /method_name\s+ClassOrModule/  
-  arg = arg.sub(/^(\S+)\s+(\S+)\.$/, '\2\1')
-  if arg =~ /\.$/ ||  arg =~ /(#|::)[^A-Z]/ 
-    # Force display exact match (esp of class or module) by putting '.' at end 
-    # Note that some methods begin with capital letter?
-    ri.display_name arg.sub(/\.$/, '')
-  elsif ARGV.first =~ /\*$/
+  
+  if ARGV.first == '-d' # exact match
+    ri.display_name ARGV[1]
+  #elsif ARGV.first =~ /\*$/
     # list all symbols for class or module '*' at end of name
-    ri.display_class_symbols arg[0..-2]
+    # ri.display_class_symbols arg[0..-2]
   else
-    ri.display_matches arg
+    ri.display_matches ARGV.first
   end
 end

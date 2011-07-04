@@ -102,3 +102,33 @@ LOWER PRIORITY
 - flag by whether there is documentation
 
 
+
+TODO
+
+I played around with the prototype and am getting a better feel for it
+
+1. need an indicator of what has actual commentary
+2. on a class page, search for an instance or class Method
+  with an extended autocomplete
+  e.g. 
+  = ActionView::Helpers::NumberHelper#nu... c-x c-u
+
+  use \. for Class method, easier to detect than :: which is used for module name sep
+
+if a method name without a class, don't allow entering, revie the last autocomplete
+
+3. rdoc partial syntax highlighting
+
+
+PRIORITY
+- find READMEs
+- find standard Library rdoc- 
+
+
+Got standard library ri docs generated. Bug in rdoc gem
+/home/choi/.rvm/gems/ruby-1.9.2-p180/gems/rdoc-3.6.1/lib/rdoc/options.rb:234:    # D CHOI
+
+OK discovered that autocomplete can actually show a DEFINITION
+  though I'm not sure I want to use this.
+
+  Try maybe you want 

@@ -12,7 +12,8 @@ else
   " Maybe I should make this a relative path
 endif
 
-let s:selectionPrompt = "Name: "
+let s:selectionPrompt = ""
+let s:lastQuery = ""
 
 func! s:trimString(string)
   let string = substitute(a:string, '\s\+$', '', '')
@@ -30,6 +31,11 @@ function! RDocStatusLine()
 endfunction
 
 function! StartRDocQuery()
+  if getline(1) =~ '^= '
+    let line = s:selectionPrompt . getline(1)[2:-1]
+  else
+    let line = s:selectionPrompt
+  endif
   leftabove split SearchRDocs
   setlocal textwidth=0
   setlocal completefunc=RDocAutoComplete
@@ -41,37 +47,39 @@ function! StartRDocQuery()
   inoremap <buffer> <cr> <Esc>:call <SID>doSearch()<cr>
   noremap <buffer> <cr> <Esc>:call <SID>doSearch()<cr>
   noremap <buffer> q <Esc>:close
-  inoremap <buffer> <Esc> <Esc>:close<CR>
-  noremap <buffer> <Esc> <Esc>:close<CR>
-  call setline(1, s:selectionPrompt)
+  "inoremap <buffer> <Esc> <Esc>:close<CR>
+  "noremap <buffer> <Esc> <Esc>:close<CR>
+  call setline(1, line)
   normal $
   call feedkeys("a", 't')
   " call feedkeys("a\<c-x>\<c-u>\<c-p>", 't')
-  autocmd CursorMovedI <buffer> call feedkeys("\<c-x>\<c-u>\<c-p>", 't')
+  " autocmd CursorMovedI <buffer> call feedkeys("\<c-x>\<c-u>\<c-p>", 't')
 endfunction
 
-function! RDoc2()
-  rightbelow split RDocBuffer
-  setlocal cursorline
+function! s:open_doc_window()
+  if exists("s:doc_bufnr") 
+    let doc_winnr = bufwinnr(s:doc_bufnr) 
+    if doc_winnr == winnr() 
+      return
+    endif
+    if doc_winnr != -1
+      exec doc_winnr . "wincmd w"
+      return
+    endif
+  endif
+  leftabove split RDocBuffer
   setlocal nowrap
   setlocal textwidth=0
-  setlocal buftype=nofile
-  setlocal bufhidden=hide
-  setlocal noswapfile
   noremap <buffer> <Leader>s :call <SID>openQueryWindow()<cr>
   noremap <buffer> <Leader>i :close<CR>
   noremap <buffer> ? :call <SID>help()<CR>
   noremap <buffer> <cr> :call <SID>playTrack()<cr>
   setlocal nomodifiable
   setlocal statusline=%!RDocStatusLine()
-  if line('$') == 1 " buffer empty
-    let msg = "Welcome to vim_rdoc\n\nPress ? for help"
-    setlocal modifiable
-    silent! 1,$delete
-    silent! put =msg
-    silent! 1delete
-    setlocal nomodifiable
-  endif
+
+  command! -nargs=+ HtmlHiLink highlight def link <args>
+
+  let s:doc_bufnr = bufnr('%')
 endfunction
 
 function! s:help()
@@ -117,13 +125,15 @@ function! s:doSearch()
   if (len(query) == 0 || query =~ '^\s*$')
     return
   endif
-  let bcommand = s:rdoc_tool.shellescape(query)."."
+  call s:open_doc_window()
+  let bcommand = s:rdoc_tool.'-d '.shellescape(query)
   let res = s:runCommand(bcommand)
   setlocal modifiable
   silent! 1,$delete
   silent! put =res
   silent! 1delete
   setlocal nomodifiable
+  write
   normal gg
 endfunction
 
