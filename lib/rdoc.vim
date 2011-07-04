@@ -50,7 +50,7 @@ function! StartRDocQuery()
   resize 1
   inoremap <buffer> <cr> <Esc>:call <SID>doSearch()<cr>
   noremap <buffer> <cr> <Esc>:call <SID>doSearch()<cr>
-  noremap <buffer> q <Esc>:close
+  noremap <buffer> q <Esc>:close<cr>
   inoremap <buffer> <Tab> <C-x><C-u>
   call setline(1, line)
   normal $
