@@ -126,6 +126,19 @@ function! s:displayDoc(query)
   call writefile(split(res, "\n"), cacheFile)
   exec "edit ".cacheFile
   call s:prepareBuffer()
+
+
+  syntax on
+  syntax region rdoctt  start="<tt[^>]*>"         end="</tt>"
+  highlight link rdoctt         String
+
+  syntax region h1  start="^\s*="       end="\($\)" contains=@Spell
+  syntax region h2  start="^\s*=="      end="\($\)" contains=@Spell
+  syntax region h3  start="^\s*==="     end="\($\)" contains=@Spell
+  highlight link h1         String
+  highlight link h2         String
+  highlight link h3         String
+
 endfunction
 
 function! s:lookupNameUnderCursor()
