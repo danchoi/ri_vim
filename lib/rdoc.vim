@@ -61,7 +61,6 @@ function! s:prepareBuffer()
   noremap <buffer> <Leader>s :call <SID>openQueryWindow()<cr>
   noremap <buffer> <cr> :call <SID>playTrack()<cr>
   setlocal nomodifiable
-  noremap <buffer> ,r :call <SID>openREADME()<CR>
   noremap <buffer> K :call <SID>lookupNameUnderCursor()<CR>
   noremap <buffer> <CR> :call <SID>lookupNameUnderCursor()<CR>
   command! -nargs=+ HtmlHiLink highlight def link <args>
@@ -120,26 +119,11 @@ function! s:displayDoc(query)
   wincmd p
   let bcommand = s:rdoc_tool.'-d '.shellescape(a:query)
   let res = s:runCommand(bcommand)
-
+  " We're caching is strictly so we can use CTRL-o and CTRL-i
   let cacheFile = substitute(s:cacheDir.'/'.a:query, '#', ',','')
-
   call writefile(split(res, "\n"), cacheFile)
   exec "edit ".cacheFile
   call s:prepareBuffer()
-endfunction
-
-function! s:openREADME()
-  call search('^(from gem \S\+)', 'w')
-  let gem = matchstr(getline(line('.')), '[[:alnum:]]\+-[0-9.]\+')
-  echo gem
-  let bcommand = s:rdoc_tool.'-r '.shellescape(gem)
-  let res = s:runCommand(bcommand)
-  setlocal modifiable
-  silent! 1,$delete
-  silent! put =res
-  silent! 1delete
-  write
-  normal gg
 endfunction
 
 function! s:lookupNameUnderCursor()
@@ -147,7 +131,6 @@ function! s:lookupNameUnderCursor()
   echo query
   call s:displayDoc(query)
 endfunction
-
 
 
 nnoremap <silent> <leader>j :call StartRDocQuery()<cr>
