@@ -335,6 +335,16 @@ class RDoc::RI::Driver
     puts matches.sort.join("\n")
   end
 
+
+  def display_method_matches name
+    matches = []
+    xs = list_methods_matching name
+    longest_method = xs.inject("") {|memo, x| x[0].size > memo.size ? x[0] : memo }
+    matches = xs.map {|x| "%-#{longest_method.size}s %s%s%s" % [x[0], x[1], x[2], x[0]] }
+    puts matches.sort.join("\n")
+  end
+
+
   def list_methods_matching name
     found = []
     find_methods name do |store, klass, ancestor, types, method|
@@ -576,6 +586,8 @@ if __FILE__ == $0
   
   if ARGV.first == '-d' # exact match
     ri.display_name ARGV[1]
+  elsif ARGV.first =~ /^[^A-Z]/
+    ri.display_method_matches ARGV.first
   #elsif ARGV.first =~ /\*$/
     # list all symbols for class or module '*' at end of name
     # ri.display_class_symbols arg[0..-2]

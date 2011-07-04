@@ -125,6 +125,11 @@ function! s:doSearch()
   if (len(query) == 0 || query =~ '^\s*$')
     return
   endif
+
+  if query =~ '\S\s\+\S'
+    let parts = split(query)
+    let query = get(parts, 1)
+  endif
   call s:open_doc_window()
   let bcommand = s:rdoc_tool.'-d '.shellescape(query)
   let res = s:runCommand(bcommand)
@@ -132,7 +137,6 @@ function! s:doSearch()
   silent! 1,$delete
   silent! put =res
   silent! 1delete
-  setlocal nomodifiable
   write
   normal gg
 endfunction
