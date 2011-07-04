@@ -517,7 +517,7 @@ class RDoc::RI::Driver
   end
 
   def gemdir(gem)
-    gemdir = `rvm gemdir`.strip + "/gems/#{gem}"
+    gemdir = ENV["GEM_HOME"] + "/gems/#{gem}"
   end
 
   def open_readme(gem)
