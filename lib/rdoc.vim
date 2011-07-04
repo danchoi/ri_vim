@@ -124,14 +124,15 @@ function! s:doSearch()
 endfunction
 
 function! s:displayDoc(query)
-  normal ncmd pWincmd p
+  wincmd p
   let bcommand = s:rdoc_tool.'-d '.shellescape(a:query)
   let res = s:runCommand(bcommand)
-  let cacheFile = s:cacheDir.'/'.a:query
+
+  let cacheFile = substitute(s:cacheDir.'/'.a:query, '#', ',','')
+
   call writefile(split(res, "\n"), cacheFile)
   exec "edit ".cacheFile
-  "call s:prepareBuffer()
-  normal gg
+  call s:prepareBuffer()
 endfunction
 
 function! s:openREADME()
@@ -151,7 +152,6 @@ endfunction
 function! s:lookupNameUnderCursor()
   let query = expand("<cWORD>")
   echo query
-  return
   call s:displayDoc(query)
 endfunction
 
