@@ -129,8 +129,11 @@ function! s:displayDoc(query)
 
 
   syntax on
-  syntax region rdoctt  start="<tt[^>]*>"         end="</tt>"
-  highlight link rdoctt         String
+
+  "syntax region rdoctt  matchgroup=ttTags start="<tt[^>]*>"hs=e+1 end="</tt>"he=e-5
+  syntax region rdoctt  matchgroup=ttTags start="<tt[^>]*>" end="</tt>"
+  highlight link rdoctt         Identifier
+  highlight link ttTags Comment
 
   syntax region h1  start="^\s*="       end="\($\)" contains=@Spell
   syntax region h2  start="^\s*=="      end="\($\)" contains=@Spell
@@ -138,6 +141,9 @@ function! s:displayDoc(query)
   highlight link h1         String
   highlight link h2         String
   highlight link h3         String
+
+  syntax region code  start="^ "  end="\($\)" 
+  highlight link code         Comment
 
 endfunction
 
