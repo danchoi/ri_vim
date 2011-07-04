@@ -14,6 +14,7 @@ endif
 
 let s:selectionPrompt = ""
 let s:lastQuery = ""
+let s:history = []
 
 func! s:trimString(string)
   let string = substitute(a:string, '\s\+$', '', '')
@@ -83,6 +84,9 @@ function! s:openDocWindow()
 
   command! -nargs=+ HtmlHiLink highlight def link <args>
 
+  noremap <buffer> <C-i> :call <SID>jumpForward()<CR>
+  noremap <buffer> <C-o> :call <SID>jumpBack()<CR>
+
   let s:doc_bufnr = bufnr('%')
 endfunction
 
@@ -133,9 +137,14 @@ function! s:doSearch()
     let parts = split(query)
     let query = get(parts, 1)
   endif
-  let s:lastQuery = query
+  call s:displayDoc(query)
+endfunction
+
+function! s:displayDoc(query)
+  let s:lastQuery = a:query
+  call add(s:history, a:query)
   call s:openDocWindow()
-  let bcommand = s:rdoc_tool.'-d '.shellescape(query)
+  let bcommand = s:rdoc_tool.'-d '.shellescape(a:query)
   let res = s:runCommand(bcommand)
   setlocal modifiable
   silent! 1,$delete
@@ -161,17 +170,16 @@ endfunction
 
 function! s:lookupName()
   let query = expand("<cWORD>")
-  let s:lastQuery = query
-  call s:openDocWindow()
-  let bcommand = s:rdoc_tool.'-d '.shellescape(query)
-  let res = s:runCommand(bcommand)
-  setlocal modifiable
-  silent! 1,$delete
-  silent! put =res
-  silent! 1delete
-  write
-  normal gg
+  call s:displayDoc(query)
 endfunction
+
+func! s:jumpBack()
+  echo get(s:history, -2)
+endfunc
+
+func! s:jumpForward()
+  echo get(s:history, -2)
+endfunc
 
 nnoremap <silent> <leader>j :call StartRDocQuery()<cr>
 echo "vim_rdoc loaded"
