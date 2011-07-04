@@ -14,12 +14,15 @@ endif
 
 let s:selectionPrompt = ""
 let s:lastQuery = ""
-let s:history = []
-let s:historyCursor = 0
+let s:cacheDir = "~/.rdoc_vim/cache"
 
 func! s:trimString(string)
   let string = substitute(a:string, '\s\+$', '', '')
   return substitute(string, '^\s\+', '', '')
+endfunc
+
+func! s:createCacheDir()
+  call system("mkdir -p ".s:cacheDir)
 endfunc
 
 function! s:runCommand(command)
@@ -86,9 +89,6 @@ function! s:openDocWindow()
 
   command! -nargs=+ HtmlHiLink highlight def link <args>
 
-  noremap <buffer> <C-i> :call <SID>jumpForward()<CR>
-  noremap <buffer> <C-o> :call <SID>jumpBack()<CR>
-
   let s:doc_bufnr = bufnr('%')
 endfunction
 
@@ -139,15 +139,10 @@ function! s:doSearch()
     let parts = split(query)
     let query = get(parts, 1)
   endif
-  call s:displayDoc(query, 1)
+  call s:displayDoc(query)
 endfunction
 
-function! s:displayDoc(query, addToHistory)
-  if a:addToHistory
-    let s:lastQuery = a:query " this variable is redundant
-    call add(s:history, a:query)
-    let s:historyCursor = s:historyCursor + 1
-  end
+function! s:displayDoc(query)
   call s:openDocWindow()
   let bcommand = s:rdoc_tool.'-d '.shellescape(a:query)
   let res = s:runCommand(bcommand)
@@ -175,27 +170,15 @@ endfunction
 
 function! s:lookupNameUnderCursor()
   let query = expand("<cWORD>")
-  call s:displayDoc(query, 1)
+  call s:displayDoc(query)
 endfunction
 
-func! s:jumpBack()
-  let s:historyCursor = s:historyCursor - 1
-  call s:displayDocFromHistory()
-endfunc
 
-func! s:jumpForward()
-  let s:historyCursor = s:historyCursor + 1
-  call s:displayDocFromHistory()
-endfunc
-
-func! s:displayDocFromHistory()
-  let name = get(s:history, s:historyCursor)
-  echom "Jumping to ".name
-  call s:displayDoc(name, 0)
-endfunc
 
 nnoremap <silent> <leader>j :call StartRDocQuery()<cr>
 echo "vim_rdoc loaded"
+
+call s:createCacheDir()
 
 let g:RDocLoaded = 1
 

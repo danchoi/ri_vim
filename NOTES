@@ -39,17 +39,6 @@ Example of method search:
 
 [choi kaja~/p/vim-ri]$ ruby -Ilib rivim.rb task
 
-task             Capistrano::Configuration::Namespaces#
-task             Rake::DSL#
-task_call_frames Capistrano::Configuration::Execution#
-task_defined?    Rake::Task::
-task_help        Thor::
-task_list        Capistrano::Configuration::Namespaces#
-tasks            Capistrano::Configuration::Namespaces#
-tasks            Rake::NameSpace#
-tasks            Rake::Task::
-tasks            Rake::TaskManager#
-tasks            Thor::Base::ClassMethods#
 
 
 Need ability to jump up to parent
@@ -175,7 +164,17 @@ I think for RDoc history, we also need the last line number so we can jump to it
 NEXT 
 - some syntax higlighting
 - don't add to history if there is an erro
+- remember to note in doc that TAB is equal to C-X C-u
+- drop down history list?
+- bookmarks?
+- readmes
+- straight to gem code
+
+I think I should do other work, chip away at this gradually, then release on
+Thurs or next Mon
 
 
+* I think I should save the docs as files in a cache, then I get vim jumplist 
+functionality for free. No need to do message history tracking implementation
 
 
