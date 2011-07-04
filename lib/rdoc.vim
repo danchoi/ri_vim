@@ -15,6 +15,7 @@ endif
 let s:selectionPrompt = ""
 let s:lastQuery = ""
 let s:history = []
+let s:historyCursor = 0
 
 func! s:trimString(string)
   let string = substitute(a:string, '\s\+$', '', '')
@@ -81,6 +82,7 @@ function! s:openDocWindow()
   setlocal statusline=%!RDocStatusLine()
   noremap <buffer> ,r :call <SID>openREADME()<CR>
   noremap <buffer> K :call <SID>lookupNameUnderCursor()<CR>
+  noremap <buffer> <CR> :call <SID>lookupNameUnderCursor()<CR>
 
   command! -nargs=+ HtmlHiLink highlight def link <args>
 
@@ -137,12 +139,15 @@ function! s:doSearch()
     let parts = split(query)
     let query = get(parts, 1)
   endif
-  call s:displayDoc(query)
+  call s:displayDoc(query, 1)
 endfunction
 
-function! s:displayDoc(query)
-  let s:lastQuery = a:query
-  call add(s:history, a:query)
+function! s:displayDoc(query, addToHistory)
+  if a:addToHistory
+    let s:lastQuery = a:query " this variable is redundant
+    call add(s:history, a:query)
+    let s:historyCursor = s:historyCursor + 1
+  end
   call s:openDocWindow()
   let bcommand = s:rdoc_tool.'-d '.shellescape(a:query)
   let res = s:runCommand(bcommand)
@@ -170,15 +175,23 @@ endfunction
 
 function! s:lookupNameUnderCursor()
   let query = expand("<cWORD>")
-  call s:displayDoc(query)
+  call s:displayDoc(query, 1)
 endfunction
 
 func! s:jumpBack()
-  echo get(s:history, -2)
+  let s:historyCursor = s:historyCursor - 1
+  call s:displayDocFromHistory()
 endfunc
 
 func! s:jumpForward()
-  echo get(s:history, -2)
+  let s:historyCursor = s:historyCursor + 1
+  call s:displayDocFromHistory()
+endfunc
+
+func! s:displayDocFromHistory()
+  let name = get(s:history, s:historyCursor)
+  echom "Jumping to ".name
+  call s:displayDoc(name, 0)
 endfunc
 
 nnoremap <silent> <leader>j :call StartRDocQuery()<cr>
