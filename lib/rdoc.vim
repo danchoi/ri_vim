@@ -62,11 +62,11 @@ function! s:prepareBuffer()
   setlocal textwidth=0
   noremap <buffer> <Leader>s :call <SID>openQueryWindow()<cr>
   noremap <buffer> <cr> :call <SID>playTrack()<cr>
-  setlocal nomodifiable
   noremap <buffer> K :call <SID>lookupNameUnderCursor()<CR>
   noremap <buffer> <CR> :call <SID>lookupNameUnderCursor()<CR>
-  command! -nargs=+ HtmlHiLink highlight def link <args>
   let s:doc_bufnr = bufnr('%')
+  autocmd BufRead <buffer> call <SID>syntaxLoad()
+  call s:syntaxLoad()
 endfunction
 
 function! s:help()
@@ -123,34 +123,29 @@ function! s:displayDoc(query)
   let res = s:runCommand(bcommand)
   " We're caching is strictly so we can use CTRL-o and CTRL-i
   let cacheFile = substitute(s:cacheDir.'/'.a:query, '#', ',','')
-  call writefile(split(res, "\n"), cacheFile)
+  if ! filereadable(cacheFile)
+    call writefile(split(res, "\n"), cacheFile)
+  endif
   exec "edit ".cacheFile
   call s:prepareBuffer()
+endfunction
 
-
+func! s:syntaxLoad()
   syntax clear
-
-  "syntax region rdoctt  matchgroup=ttTags start="<tt[^>]*>"hs=e+1 end="</tt>"he=e-5
   syntax region rdoctt  matchgroup=ttTags start="<tt[^>]*>" end="</tt>"
   highlight link rdoctt         Identifier
   highlight link ttTags Comment
-
   syntax region h1  start="^\s*="       end="\($\)" contains=@Spell
   syntax region h2  start="^\s*=="      end="\($\)" contains=@Spell
   syntax region h3  start="^\s*==="     end="\($\)" contains=@Spell
   highlight link h1         String
   highlight link h2         String
   highlight link h3         String
-
-  " syntax region code  start="^*\? "  end="\($\)" 
-  " highlight link code         Comment
-
-endfunction
+endfunc
 
 function! s:lookupNameUnderCursor()
   let query = substitute(expand("<cWORD>"), '[.,]$', '', '')
   let query = substitute(query, '</\?tt>', '', 'g')
-  echom query
   " look up class
   let classname = ''
   let x = matchstr(getline(1) , '= [A-Z]\S\+')
