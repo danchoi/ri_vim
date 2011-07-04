@@ -292,7 +292,6 @@ class RDoc::RI::Driver
     true
   end
 
-
   # Use for universal autocomplete
   def display_matches name
     matches = []
@@ -301,7 +300,16 @@ class RDoc::RI::Driver
       #longest_method = xs.inject("") {|memo, x| x[0].size > memo.size ? x[0] : memo }
       #matches = xs.map {|x| "%-#{longest_method.size}s %s%s" % [x[0], x[1], x[2]] }
     end
-    matches = classes.keys.grep(/^#{name}/) if matches.empty?
+    if matches.empty?
+      #matches = classes.keys.grep(/^#{name}/) 
+      matches = classes.select {|k, v| k =~ /^#{name}/ }.
+        map {|k, v|
+          store = v.first
+          klass = store.load_class k
+          has_comment = !klass.comment.empty?
+          "#{k} #{has_comment ? "(*)" : ''}"
+        }
+    end
     puts matches.sort.join("\n")
   end
 

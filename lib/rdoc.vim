@@ -110,6 +110,9 @@ function! s:doSearch()
   if (len(query) == 0 || query =~ '^\s*$')
     return
   endif
+  if query =~ '(\*)'
+    let query = substitute(query, '\s*(\*)', '', '')
+  endif
   if query =~ '\S\s\+\S'
     let parts = split(query)
     let query = get(parts, 1)
