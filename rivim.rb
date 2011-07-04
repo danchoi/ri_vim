@@ -580,6 +580,8 @@ end
 if __FILE__ == $0
   ri = RDoc::RI::Driver.new  ARGV
   arg =  ARGV.first
+  # format arg if /method_name\s+ClassOrModule/  
+  arg = arg.sub(/^(\S+)\s+(\S+)\.$/, '\2\1')
   if arg =~ /\.$/ ||  arg =~ /(#|::)[^A-Z]/ 
     # Force display exact match (esp of class or module) by putting '.' at end 
     # Note that some methods begin with capital letter?
