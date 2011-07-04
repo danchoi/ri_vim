@@ -45,7 +45,9 @@ function! StartRDocQuery()
   noremap <buffer> <Esc> <Esc>:close<CR>
   call setline(1, s:selectionPrompt)
   normal $
-  call feedkeys("a\<c-x>\<c-u>\<c-p>", 't')
+  call feedkeys("a", 't')
+  " call feedkeys("a\<c-x>\<c-u>\<c-p>", 't')
+  autocmd CursorMovedI <buffer> call feedkeys("\<c-x>\<c-u>\<c-p>", 't')
 endfunction
 
 function! RDoc2()
