@@ -126,9 +126,6 @@ OK discovered that autocomplete can actually show a DEFINITION
 
 should restore the direct method search
 
-
-- over CTRL-O to go back in internal history list
-
 - encourage internal rdoc generation for internal projects 
   - that means that e.g. much of a consulting rails project should be pushed
     down into a gem
@@ -136,8 +133,6 @@ should restore the direct method search
 - TODO
   To search readmes, try a different approach. Just let use search not by Ruby name, but 
   by gem name, which is like 'activerecord". This is simpler to implement
-
-
 
 Syntax highlight
 = heading
@@ -156,14 +151,9 @@ Good screen shot examples
 
 I think for RDoc history, we also need the last line number so we can jump to it
 
-- .rdoc_vim/bookmarks - CAN WAIT TILL LATER?
-
-- .rdoc_vim/history => basic part done
-
 
 NEXT 
 - some syntax higlighting
-- don't add to history if there is an erro
 - remember to note in doc that TAB is equal to C-X C-u
 - drop down history list?
 - bookmarks?
@@ -176,5 +166,8 @@ Thurs or next Mon
 
 * I think I should save the docs as files in a cache, then I get vim jumplist 
 functionality for free. No need to do message history tracking implementation
+
+
+- instead of cWORD check against a regex so we can cursor over <tt>lkawjdlak
 
 

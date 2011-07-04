@@ -14,7 +14,7 @@ endif
 
 let s:selectionPrompt = ""
 let s:lastQuery = ""
-let s:cacheDir = $HOME."/rdoc_vim/cache"
+let s:cacheDir = $HOME."/.rdoc_vim/cache"
 
 func! s:trimString(string)
   let string = substitute(a:string, '\s\+$', '', '')
@@ -31,9 +31,6 @@ function! s:runCommand(command)
   return res
 endfunction
 
-function! RDocStatusLine()
-  return "%<%f\ Press ? for help. "."%r%=%-14.(%l,%c%V%)\ %P"
-endfunction
 
 function! StartRDocQuery()
   if s:lastQuery != ''
@@ -62,11 +59,8 @@ function! s:prepareBuffer()
   setlocal nowrap
   setlocal textwidth=0
   noremap <buffer> <Leader>s :call <SID>openQueryWindow()<cr>
-  noremap <buffer> <Leader>i :close<CR>
-  noremap <buffer> ? :call <SID>help()<CR>
   noremap <buffer> <cr> :call <SID>playTrack()<cr>
   setlocal nomodifiable
-  setlocal statusline=%!RDocStatusLine()
   noremap <buffer> ,r :call <SID>openREADME()<CR>
   noremap <buffer> K :call <SID>lookupNameUnderCursor()<CR>
   noremap <buffer> <CR> :call <SID>lookupNameUnderCursor()<CR>
@@ -115,7 +109,6 @@ function! s:doSearch()
   if (len(query) == 0 || query =~ '^\s*$')
     return
   endif
-
   if query =~ '\S\s\+\S'
     let parts = split(query)
     let query = get(parts, 1)
