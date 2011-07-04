@@ -167,7 +167,15 @@ Good screen shot examples
 
 I think for RDoc history, we also need the last line number so we can jump to it
 
-- .rdoc_vim/bookmarks
-- .rdoc_vim/history
+- .rdoc_vim/bookmarks - CAN WAIT TILL LATER?
+
+- .rdoc_vim/history => basic part done
+
+
+NEXT 
+- some syntax higlighting
+- don't add to history if there is an erro
+
+
 
 
