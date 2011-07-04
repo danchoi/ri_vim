@@ -390,7 +390,6 @@ class RDoc::RI::Driver
   # use it.  If we're outputting to a pager, use bs, otherwise ansi.
   def formatter(io)
     RDoc::Markup::ToRdoc.new
-    #RDoc::Markup::ToAnsi.new
   end
 
   # Is +file+ in ENV['PATH']?

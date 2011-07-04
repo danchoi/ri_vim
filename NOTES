@@ -171,3 +171,6 @@ functionality for free. No need to do message history tracking implementation
 - instead of cWORD check against a regex so we can cursor over <tt>lkawjdlak
 
 
+The Rdoc fo IO::pipe is messed up. Text is missing. Compare to original source
+
+~/.rvm/src/ruby-1.9.2-p180/io.c
