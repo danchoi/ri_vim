@@ -194,17 +194,17 @@ at top
 
 Almost there. Next:
 
-  syntax highlighting -- good enough for v1
   gem readmes
   chdir to gem dir
   open rdoc html
-  drop down class method autocomplete
+  drop down class method autocomplete 
   - multilevel autocomplete
     - match 1st level module name first, then rest
   - put recently seen at top of autocomplete
+    - or put some hierachy navigation
   - <em> tag syntax color
-  - syntax is lost
+  - fail gracefully if no search result
+  - <tt> should be dark against dark bg, light against light
 
-
-
+- Time is missing instance and class methods -- why?
 
