@@ -150,4 +150,18 @@ should restore the direct method search
 
 
 
+Syntax highlight
+= heading
+== heading
+<tt></tt>
+<em></em>
+options
+  :invalid :
+
+fix indent of paragraph?
+
+
+Good screen shot examples
+- String#encode
+
 
