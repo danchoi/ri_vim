@@ -80,7 +80,7 @@ function! s:openDocWindow()
   setlocal nomodifiable
   setlocal statusline=%!RDocStatusLine()
   noremap <buffer> ,r :call <SID>openREADME()<CR>
-  noremap <buffer> K :call <SID>lookupName()<CR>
+  noremap <buffer> K :call <SID>lookupNameUnderCursor()<CR>
 
   command! -nargs=+ HtmlHiLink highlight def link <args>
 
@@ -168,7 +168,7 @@ function! s:openREADME()
   normal gg
 endfunction
 
-function! s:lookupName()
+function! s:lookupNameUnderCursor()
   let query = expand("<cWORD>")
   call s:displayDoc(query)
 endfunction
