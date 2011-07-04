@@ -1,6 +1,7 @@
 # Original code taken from the rdoc gem
 # Modified for rdoc_vim gem by Daniel Choi <dhchoi@gmail.com>
-#
+
+gem 'rdoc'
 require 'abbrev'
 require 'optparse'
 begin
@@ -19,6 +20,7 @@ require 'rdoc/text'
 
 # For RubyGems backwards compatibility
 require 'rdoc/ri/formatter'
+
 
 class RDoc::RI::Driver
   class Error < RDoc::RI::Error; end
@@ -67,7 +69,7 @@ class RDoc::RI::Driver
     return if also_in.empty?
     out << RDoc::Markup::Rule.new(1)
     out << RDoc::Markup::Paragraph.new("Also found in:")
-    paths = RDoc::Markup::Paragraph.new
+    paths = RDoc::Markup::Verbatim.new
     also_in.each do |store|
       paths.parts.push store.friendly_path, "\n"
     end
@@ -120,7 +122,7 @@ class RDoc::RI::Driver
           out << incl.comment
         end
         unless wout.empty? then
-          verb = RDoc::Markup::Paragraph.new
+          verb = RDoc::Markup::Verbatim.new
           wout.each do |incl|
             verb.push incl.name, "\n"
           end
@@ -135,11 +137,7 @@ class RDoc::RI::Driver
     return unless methods && !methods.empty?
     out << RDoc::Markup::Heading.new(1, "#{name}:")
     out << RDoc::Markup::BlankLine.new
-    out.push(*methods.map do |method|
-      #Ths does not work:
-      #RDoc::Markup::Verbatim.new method
-      RDoc::Markup::Paragraph.new method
-    end)
+    out << RDoc::Markup::IndentedParagraph.new(2, methods.join(', '))
     out << RDoc::Markup::BlankLine.new
   end
 
@@ -243,10 +241,10 @@ class RDoc::RI::Driver
         out << list
       end
       add_method_list(out, 
-        (class_methods || []).map {|x| "#{name}.#{x}"},    
+        (class_methods || []).map {|x| ".#{x}"},    
         'Class methods')
       add_method_list(out, 
-                      (instance_methods || []).map {|x| "#{name}##{x}"}, 
+                      (instance_methods || []).map {|x| "#{x}"}, 
                       'Instance methods')
       add_method_list out, attributes,       'Attributes'
       out << RDoc::Markup::BlankLine.new
@@ -274,7 +272,7 @@ class RDoc::RI::Driver
         if method.arglists then
           arglists = method.arglists.chomp.split "\n"
           arglists = arglists.map { |line| line + "\n" }
-          out << RDoc::Markup::Paragraph.new(*arglists)
+          out << RDoc::Markup::Verbatim.new(*arglists)
           out << RDoc::Markup::Rule.new(1)
         end
         out << RDoc::Markup::BlankLine.new

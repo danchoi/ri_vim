@@ -12,6 +12,8 @@ else
   " Maybe I should make this a relative path
 endif
 
+let s:ri_tool = 'ri --format=rdoc '
+
 let s:selectionPrompt = ""
 let s:lastQuery = ""
 let s:cacheDir = $HOME."/.rdoc_vim/cache"

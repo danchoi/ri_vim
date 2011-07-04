@@ -174,3 +174,16 @@ functionality for free. No need to do message history tracking implementation
 The Rdoc fo IO::pipe is messed up. Text is missing. Compare to original source
 
 ~/.rvm/src/ruby-1.9.2-p180/io.c
+
+
+~/.rvm/src/rvm/scripts/docs
+
+  this genreates the rdocs
+
+Something is definitely wrong with the ri generator!
+
+Compare the darkfish html output of String#scan with the ri 
+
+stuff is missing the the stuff in the code example
+
+
