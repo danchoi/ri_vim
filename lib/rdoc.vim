@@ -136,14 +136,14 @@ endfunction
 func! s:syntaxLoad()
   syntax clear
   syntax region rdoctt  matchgroup=ttTags start="<tt[^>]*>" end="</tt>"
-  highlight link rdoctt         Identifier
+  highlight link rdoctt Type
   highlight link ttTags Comment
   syntax region h1  start="^="       end="\($\)" contains=@Spell
   syntax region h2  start="^=="      end="\($\)" contains=@Spell
   syntax region h3  start="^==="     end="\($\)" contains=@Spell
-  highlight link h1         String
-  highlight link h2         String
-  highlight link h3         String
+  highlight link h1         Type
+  highlight link h2         Type
+  highlight link h3         Type
 endfunc
 
 function! s:lookupNameUnderCursor()
