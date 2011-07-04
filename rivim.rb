@@ -92,7 +92,7 @@ class RDoc::RI::Driver
   # Adds "(from ...)" to +out+ for +store+
   def add_from out, store
     out << RDoc::Markup::Paragraph.new("(from #{store.friendly_path})")
-    out << RDoc::Markup::Paragraph.new("(from #{store.path})")
+    #out << RDoc::Markup::Paragraph.new("(from #{store.path})")
   end
 
   # Adds +includes+ to +out+
@@ -515,12 +515,26 @@ class RDoc::RI::Driver
     klass = parts.join
     [klass, type, meth]
   end
+
+  def gemdir(gem)
+    gemdir = `rvm gemdir`.strip + "/gems/#{gem}"
+  end
+
+  def open_readme(gem)
+    puts gemdir(gem)
+    puts `ls #{gemdir(gem)}`
+    Dir["#{gemdir(gem)}/README*"].each do |file|
+      puts File.read(file)
+    end
+  end
 end
 
 if __FILE__ == $0
   ri = RDoc::RI::Driver.new  ARGV
-  
-  if ARGV.first == '-d' # exact match
+  if ARGV.first == '-r' # open README for gem
+    gem = ARGV[1]
+    ri.open_readme gem
+  elsif ARGV.first == '-d' # exact match
     ri.display_name ARGV[1]
   elsif ARGV.first =~ /^[^A-Z]/
     ri.display_method_matches ARGV.first

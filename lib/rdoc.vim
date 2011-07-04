@@ -76,6 +76,7 @@ function! s:open_doc_window()
   noremap <buffer> <cr> :call <SID>playTrack()<cr>
   setlocal nomodifiable
   setlocal statusline=%!RDocStatusLine()
+  noremap <buffer> ,r :call <SID>openREADME()<CR>
 
   command! -nargs=+ HtmlHiLink highlight def link <args>
 
@@ -97,8 +98,7 @@ function! RDocAutoComplete(findstart, base)
     if (a:base == '')
       return s:matchingNames("")
     else
-      let res = []
-      " find tracks matching a:base
+      let res = [] " find tracks matching a:base
       for m in s:matchingNames(a:base)
         call add(res, m)
       endfor
@@ -133,6 +133,20 @@ function! s:doSearch()
   let s:lastQuery = query
   call s:open_doc_window()
   let bcommand = s:rdoc_tool.'-d '.shellescape(query)
+  let res = s:runCommand(bcommand)
+  setlocal modifiable
+  silent! 1,$delete
+  silent! put =res
+  silent! 1delete
+  write
+  normal gg
+endfunction
+
+function! s:openREADME()
+  call search('^(from gem \S\+)', 'w')
+  let gem = matchstr(getline(line('.')), '[[:alnum:]]\+-[0-9.]\+')
+  echo gem
+  let bcommand = s:rdoc_tool.'-r '.shellescape(gem)
   let res = s:runCommand(bcommand)
   setlocal modifiable
   silent! 1,$delete
