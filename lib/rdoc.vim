@@ -14,7 +14,7 @@ endif
 
 let s:selectionPrompt = ""
 let s:lastQuery = ""
-let s:cacheDir = "~/.rdoc_vim/cache"
+let s:cacheDir = $HOME."/rdoc_vim/cache"
 
 func! s:trimString(string)
   let string = substitute(a:string, '\s\+$', '', '')
@@ -53,28 +53,12 @@ function! StartRDocQuery()
   noremap <buffer> <cr> <Esc>:call <SID>doSearch()<cr>
   noremap <buffer> q <Esc>:close
   inoremap <buffer> <Tab> <C-x><C-u>
-  
-  "inoremap <buffer> <Esc> <Esc>:close<CR>
-  "noremap <buffer> <Esc> <Esc>:close<CR>
   call setline(1, line)
   normal $
   call feedkeys("a", 't')
-  " call feedkeys("a\<c-x>\<c-u>\<c-p>", 't')
-  " autocmd CursorMovedI <buffer> call feedkeys("\<c-x>\<c-u>\<c-p>", 't')
 endfunction
 
-function! s:openDocWindow()
-  if exists("s:doc_bufnr") 
-    let doc_winnr = bufwinnr(s:doc_bufnr) 
-    if doc_winnr == winnr() 
-      return
-    endif
-    if doc_winnr != -1
-      exec doc_winnr . "wincmd w"
-      return
-    endif
-  endif
-  leftabove split RDocBuffer
+function! s:prepareBuffer()
   setlocal nowrap
   setlocal textwidth=0
   noremap <buffer> <Leader>s :call <SID>openQueryWindow()<cr>
@@ -86,9 +70,7 @@ function! s:openDocWindow()
   noremap <buffer> ,r :call <SID>openREADME()<CR>
   noremap <buffer> K :call <SID>lookupNameUnderCursor()<CR>
   noremap <buffer> <CR> :call <SID>lookupNameUnderCursor()<CR>
-
   command! -nargs=+ HtmlHiLink highlight def link <args>
-
   let s:doc_bufnr = bufnr('%')
 endfunction
 
@@ -122,13 +104,12 @@ function! s:matchingNames(query)
   return split(system(command), '\n')
 endfunction
 
-" selection window pick or search window query
 function! s:doSearch()
   if (getline('.') =~ '^\s*$')
     close
     return
   endif
-  let query = getline('.')[len(s:selectionPrompt):] " get(split(getline('.'), ':\s*'), 1)
+  let query = getline('.')[len(s:selectionPrompt):] 
   close
   " echom query
   if (len(query) == 0 || query =~ '^\s*$')
@@ -143,14 +124,13 @@ function! s:doSearch()
 endfunction
 
 function! s:displayDoc(query)
-  call s:openDocWindow()
+  normal ncmd pWincmd p
   let bcommand = s:rdoc_tool.'-d '.shellescape(a:query)
   let res = s:runCommand(bcommand)
-  setlocal modifiable
-  silent! 1,$delete
-  silent! put =res
-  silent! 1delete
-  write
+  let cacheFile = s:cacheDir.'/'.a:query
+  call writefile(split(res, "\n"), cacheFile)
+  exec "edit ".cacheFile
+  "call s:prepareBuffer()
   normal gg
 endfunction
 
@@ -170,6 +150,8 @@ endfunction
 
 function! s:lookupNameUnderCursor()
   let query = expand("<cWORD>")
+  echo query
+  return
   call s:displayDoc(query)
 endfunction
 
