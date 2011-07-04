@@ -132,12 +132,12 @@ class RDoc::RI::Driver
 
   # Adds a list of +methods+ to +out+ with a heading of +name+
   def add_method_list out, methods, name
-    return unless methods
+    return unless methods && !methods.empty?
     out << RDoc::Markup::Heading.new(1, "#{name}:")
     out << RDoc::Markup::BlankLine.new
     out.push(*methods.map do |method|
       #Ths does not work:
-      #RDoc::Markup::Paragraph.new method
+      #RDoc::Markup::Verbatim.new method
       RDoc::Markup::Paragraph.new method
     end)
     out << RDoc::Markup::BlankLine.new
@@ -242,8 +242,12 @@ class RDoc::RI::Driver
         end)
         out << list
       end
-      add_method_list out, class_methods,    'Class methods'
-      add_method_list out, instance_methods, 'Instance methods'
+      add_method_list(out, 
+        (class_methods || []).map {|x| "#{name}.#{x}"},    
+        'Class methods')
+      add_method_list(out, 
+                      (instance_methods || []).map {|x| "#{name}##{x}"}, 
+                      'Instance methods')
       add_method_list out, attributes,       'Attributes'
       out << RDoc::Markup::BlankLine.new
     end

@@ -56,7 +56,7 @@ function! StartRDocQuery()
   " autocmd CursorMovedI <buffer> call feedkeys("\<c-x>\<c-u>\<c-p>", 't')
 endfunction
 
-function! s:open_doc_window()
+function! s:openDocWindow()
   if exists("s:doc_bufnr") 
     let doc_winnr = bufwinnr(s:doc_bufnr) 
     if doc_winnr == winnr() 
@@ -77,6 +77,7 @@ function! s:open_doc_window()
   setlocal nomodifiable
   setlocal statusline=%!RDocStatusLine()
   noremap <buffer> ,r :call <SID>openREADME()<CR>
+  noremap <buffer> K :call <SID>lookupName()<CR>
 
   command! -nargs=+ HtmlHiLink highlight def link <args>
 
@@ -131,7 +132,7 @@ function! s:doSearch()
     let query = get(parts, 1)
   endif
   let s:lastQuery = query
-  call s:open_doc_window()
+  call s:openDocWindow()
   let bcommand = s:rdoc_tool.'-d '.shellescape(query)
   let res = s:runCommand(bcommand)
   setlocal modifiable
@@ -147,6 +148,20 @@ function! s:openREADME()
   let gem = matchstr(getline(line('.')), '[[:alnum:]]\+-[0-9.]\+')
   echo gem
   let bcommand = s:rdoc_tool.'-r '.shellescape(gem)
+  let res = s:runCommand(bcommand)
+  setlocal modifiable
+  silent! 1,$delete
+  silent! put =res
+  silent! 1delete
+  write
+  normal gg
+endfunction
+
+function! s:lookupName()
+  let query = expand("<cWORD>")
+  let s:lastQuery = query
+  call s:openDocWindow()
+  let bcommand = s:rdoc_tool.'-d '.shellescape(query)
   let res = s:runCommand(bcommand)
   setlocal modifiable
   silent! 1,$delete

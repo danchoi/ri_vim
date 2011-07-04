@@ -157,6 +157,7 @@ Syntax highlight
 <em></em>
 options
   :invalid :
+- instance method and class method names
 
 fix indent of paragraph?
 
