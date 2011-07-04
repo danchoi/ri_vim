@@ -128,7 +128,7 @@ function! s:displayDoc(query)
   call s:prepareBuffer()
 
 
-  syntax on
+  syntax clear
 
   "syntax region rdoctt  matchgroup=ttTags start="<tt[^>]*>"hs=e+1 end="</tt>"he=e-5
   syntax region rdoctt  matchgroup=ttTags start="<tt[^>]*>" end="</tt>"
@@ -142,8 +142,8 @@ function! s:displayDoc(query)
   highlight link h2         String
   highlight link h3         String
 
-  syntax region code  start="^ "  end="\($\)" 
-  highlight link code         Comment
+  " syntax region code  start="^*\? "  end="\($\)" 
+  " highlight link code         Comment
 
 endfunction
 
@@ -162,7 +162,6 @@ function! s:lookupNameUnderCursor()
   elseif query =~ '^[^A-Z]'
     let query = classname.'#'.query
   endif
-  echom query
   call s:displayDoc(query)
 endfunction
 
