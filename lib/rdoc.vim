@@ -129,7 +129,12 @@ function! s:displayDoc(query)
 endfunction
 
 function! s:lookupNameUnderCursor()
-  let query = expand("<cWORD>")
+  let query = substitute(expand("<cWORD>"), '[.,]$', '', '')
+  if query =~ '^\.'
+    let query = s:lastQuery.query
+  elseif query =~ '[^A-Z]'
+    let query = s:lastQuery.'#'.query
+  endif
   echo query
   call s:displayDoc(query)
 endfunction
