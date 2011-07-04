@@ -149,6 +149,8 @@ endfunction
 
 function! s:lookupNameUnderCursor()
   let query = substitute(expand("<cWORD>"), '[.,]$', '', '')
+  let query = substitute(query, '</\?tt>', '', 'g')
+  echom query
   " look up class
   let classname = ''
   let x = matchstr(getline(1) , '= [A-Z]\S\+')
