@@ -324,6 +324,7 @@ class RDoc::RI::Driver
 
   def list_methods_matching name
     found = []
+    find_methods name do |store, klass, ancestor, types, method|
       if types == :instance or types == :both then
         methods = store.instance_methods[ancestor]
         if methods then
