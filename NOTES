@@ -165,4 +165,9 @@ fix indent of paragraph?
 Good screen shot examples
 - String#encode
 
+I think for RDoc history, we also need the last line number so we can jump to it
+
+- .rdoc_vim/bookmarks
+- .rdoc_vim/history
+
 

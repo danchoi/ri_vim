@@ -47,6 +47,8 @@ function! StartRDocQuery()
   inoremap <buffer> <cr> <Esc>:call <SID>doSearch()<cr>
   noremap <buffer> <cr> <Esc>:call <SID>doSearch()<cr>
   noremap <buffer> q <Esc>:close
+  inoremap <buffer> <Tab> <C-x><C-u>
+  
   "inoremap <buffer> <Esc> <Esc>:close<CR>
   "noremap <buffer> <Esc> <Esc>:close<CR>
   call setline(1, line)
