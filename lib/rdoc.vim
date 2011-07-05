@@ -32,6 +32,19 @@ function! s:runCommand(command)
   return res
 endfunction
 
+" parses the first line of the doc
+" e.g. ^= ActiveRecord::Base
+" and returns ActiveRecord::Base
+function! s:classname()
+  let x = matchstr(getline(1) , '= [A-Z]\S\+')
+  if x != ''
+    return substitute(x, "^= ", '', '')
+  else
+    return ''
+  endif
+endfunction
+
+
 function! StartRDocQuery()
   let classname = s:classname()
   if classname != ''
@@ -223,18 +236,6 @@ function! s:lookupNameUnderCursor()
     let query = classname.'#'.query
   endif
   call s:displayDoc(query)
-endfunction
-
-" parses the first line of the doc
-" e.g. ^= ActiveRecord::Base
-" and returns ActiveRecord::Base
-function! s:classname()
-  let x = matchstr(getline(1) , '= [A-Z]\S\+')
-  if x != ''
-    return substitute(x, "^= ", '', '')
-  else
-    return ''
-  endif
 endfunction
 
 nnoremap <silent> <leader>j :call StartRDocQuery()<cr>

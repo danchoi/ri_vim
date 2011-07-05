@@ -308,6 +308,7 @@ class RDoc::RI::Driver
           klass = store.load_class k
           has_comment = !klass.comment.empty?
           if has_comment
+            # put indicator of parts size
             "#{k} (#{klass.comment.parts.size})"
           else
             k.to_s
@@ -471,18 +472,33 @@ class RDoc::RI::Driver
       comment = klass.comment
       class_methods    = store.class_methods[klass.full_name]
       instance_methods = store.instance_methods[klass.full_name]
-      add_to_method_dropdown class_methods,    'Class methods'
-      add_to_method_dropdown instance_methods, 'Instance methods'
+      add_to_method_dropdown name, store, class_methods,    'Class methods'
+      add_to_method_dropdown name, store, instance_methods, 'Instance methods'
     end
   end
 
-  def add_to_method_dropdown methods, name
+  def add_to_method_dropdown classname, store, methods, name
     return unless methods && !methods.empty?
     methods.each do |method|
+      size = nil
+      begin
+        if name =~ /Class/
+          bmethod = method
+        else
+          bmethod = "##{method}"
+        end
+        method_obj = store.load_method classname, bmethod 
+        bsize = method_obj.comment.parts.size
+        if bsize > 0
+          size = " (#{bsize})"
+        end
+      rescue Errno::ENOENT
+        puts $!
+      end
       if name == 'Class methods'
-        method = ".#{method}"
+        method = ".#{method}#{size}"
       else
-        method = "##{method}"
+        method = "##{method}#{size}"
       end
       puts method
       #out << RDoc::Markup::IndentedParagraph.new(2, methods.join(', '))
