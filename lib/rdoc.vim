@@ -39,6 +39,8 @@ function! s:classname()
   let x = matchstr(getline(1) , '= [A-Z]\S\+')
   " strip off any method 
   let x = substitute(x, '\(\.\|#\)\S\+$', '', '')
+  " string off class method
+  let x = substitute(x, '::[^A-Z]\+$', '', '')
   if x != ''
     return substitute(x, "^= ", '', '')
   else
@@ -61,13 +63,14 @@ function! StartRDocQuery()
   setlocal noswapfile
   setlocal modifiable
   setlocal nowrap
-  resize 1
+  resize 2
   inoremap <buffer> <cr> <Esc>:call <SID>doSearch()<cr>
   noremap <buffer> <cr> <Esc>:call <SID>doSearch()<cr>
   noremap <buffer> q <Esc>:close<cr>
   inoremap <buffer> <Tab> <C-x><C-u>
-  call setline(1, line)
-  normal $
+  call setline(1, "Search Ruby documentation (press tab to autocomplete)")
+  call setline(2, line)
+  normal G$
   call feedkeys("a", 't')
 endfunction
 
@@ -138,7 +141,7 @@ function! s:selectMethod()
   noremap <buffer> <cr> <Esc>:call <SID>doSearch()<cr>
   noremap <buffer> q <Esc>:close<cr>
   inoremap <buffer> <Tab> <C-x><C-u>
-  call setline(1, "Class: ".classname)
+  call setline(1, classname." methods: (press tab to autocomplete)")
   call setline(2, line)
   normal G$
   call feedkeys("a\<c-x>\<c-u>\<c-p>", 't')
@@ -216,6 +219,8 @@ func! s:syntaxLoad()
   syntax clear
   syntax region rdoctt  matchgroup=ttTags start="<tt>" end="</tt>" concealends
   syntax region rdoctt  matchgroup=ttTags start="<em>" end="</em>" concealends
+  syntax region rdoctt  matchgroup=ttTags start="<b>" end="</b>" concealends
+  syntax region rdoctt  matchgroup=ttTags start="<i>" end="</i>" concealends
   highlight link rdoctt Constant
   highlight link ttTags Comment
   syntax region h1  start="^="       end="\($\)" contains=@Spell
