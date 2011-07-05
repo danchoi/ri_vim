@@ -192,26 +192,22 @@ OK fixed the problem of the missing stuff: solution was to use
 
 at top
 
-Almost there. Next:
-
+Almost there. Remaining:
   gem readmes
   chdir to gem dir
   open rdoc html
-  drop down class method autocomplete 
-  - multilevel autocomplete
-    - this is definitely a navigation gap
-    - match 1st level module name first, then rest
-  - put recently seen at top of autocomplete
-    - or put some hierachy navigation
   - fail gracefully if no search result
   - <tt> should be dark against dark bg, light against light
 
 BUG
 - Time is missing instance and class methods -- why?
 
-Use 7.3 conceal feature?
-
-:help conceal
+Use 7.3 conceal feature
+  :help conceal
 
 http://b4winckler.wordpress.com/2010/08/07/using-the-conceal-vim-feature-with-latex/
 
+LATER
+
+  File: autocomplet to File::URI and ret throws error. I think it involves
+  method names that start with caps
