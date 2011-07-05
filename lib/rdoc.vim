@@ -37,6 +37,8 @@ endfunction
 " and returns ActiveRecord::Base
 function! s:classname()
   let x = matchstr(getline(1) , '= [A-Z]\S\+')
+  " strip off any method 
+  let x = substitute(x, '\(\.\|#\)\S\+$', '', '')
   if x != ''
     return substitute(x, "^= ", '', '')
   else
