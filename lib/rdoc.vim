@@ -133,13 +133,14 @@ function! s:selectMethod()
   setlocal noswapfile
   setlocal modifiable
   setlocal nowrap
-  resize 1
+  resize 2
   inoremap <buffer> <cr> <Esc>:call <SID>doSearch()<cr>
   noremap <buffer> <cr> <Esc>:call <SID>doSearch()<cr>
   noremap <buffer> q <Esc>:close<cr>
   inoremap <buffer> <Tab> <C-x><C-u>
-  call setline(1, line)
-  normal $
+  call setline(1, "Class: ".classname)
+  call setline(2, line)
+  normal G$
   call feedkeys("a\<c-x>\<c-u>\<c-p>", 't')
 endfunction
 
@@ -154,7 +155,7 @@ function! RubyClassMethodComplete(findstart, base)
       let res = [] " find tracks matching a:base
       for m in s:classMethods
         " why doesn't case insensitive flag work?
-        if m =~ '^\c' . a:base 
+        if m =~ '^\c.\?' . a:base 
           call add(res, m)
         endif
       endfor

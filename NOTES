@@ -198,6 +198,7 @@ TODO. Almost there. Remaining:
   fail gracefully if no search result (try lookup with cursor)
   ERB plugin install
   Documentation/ homepage
+  - vertical/horizonal ri window modes
 
 
 BUG
