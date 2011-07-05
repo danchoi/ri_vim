@@ -307,8 +307,8 @@ class RDoc::RI::Driver
           store = v.first
           klass = store.load_class k
           has_comment = !klass.comment.empty?
-          if has_comment?
-            "#{k} (*)"
+          if has_comment
+            "#{k} (#{klass.comment.parts.size})"
           else
             k.to_s
           end

@@ -165,9 +165,8 @@ function! s:doSearch()
     return
   endif
   " clean up query string
-  if query =~ '(\*)'
-    let query = substitute(query, '\s*(\*)', '', '')
-  endif
+
+  let query = substitute(query, '\s*(\d\+)$', '', '')
   let query = substitute(query, '::$', '', '')
 
   " for search for method
