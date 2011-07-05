@@ -8,7 +8,7 @@ if exists("g:rdoc_tool")
   let s:rdoc_tool = g:rdoc_tool
 else
   " This is the development version (specific to D Choi's setup)
-  let s:rdoc_tool = 'ruby -Ilib rivim.rb '
+  let s:rdoc_tool = 'ruby -Ilib bin/ri_vim '
   " Maybe I should make this a relative path
 endif
 

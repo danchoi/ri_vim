@@ -1,7 +1,7 @@
-# Original code taken from the rdoc gem
-# Modified for rdoc_vim gem by Daniel Choi <dhchoi@gmail.com>
+# Modified by Daniel Choi <dhchoi@gmail.com>
+# Modified the RDocRI::Driver class from the original RDoc gem for rdoc_vim gem
 
-gem 'rdoc'
+gem 'rdoc', '= 3.8'
 require 'abbrev'
 require 'optparse'
 begin
@@ -21,17 +21,7 @@ require 'rdoc/text'
 # For RubyGems backwards compatibility
 require 'rdoc/ri/formatter'
 
-
-class RDoc::RI::Driver
-  class Error < RDoc::RI::Error; end
-  class NotFoundError < Error
-    alias name message
-    def message # :nodoc:
-      "Nothing known about #{super}"
-    end
-  end
-
-  # An RDoc::RI::Store for each entry in the RI path
+class RIVim
   attr_accessor :stores
   def initialize names
     options = {
@@ -595,21 +585,27 @@ class RDoc::RI::Driver
       puts File.read(file)
     end
   end
+
+  class << self
+    def run
+      ri = self.new ARGV
+      if ARGV.first == '-r' # open README for gem
+        gem = ARGV[1]
+        ri.open_readme gem
+      elsif ARGV.first == '-d' # exact match
+        ri.display_name ARGV[1]
+
+      elsif ARGV.first == '-m'  # class methods
+        ri.display_class_symbols ARGV[1]
+      elsif ARGV.first =~ /^[^A-Z]/
+        ri.display_method_matches ARGV.first
+      else
+        ri.display_matches ARGV.first
+      end
+    end
+  end
 end
 
 if __FILE__ == $0
-  ri = RDoc::RI::Driver.new  ARGV
-  if ARGV.first == '-r' # open README for gem
-    gem = ARGV[1]
-    ri.open_readme gem
-  elsif ARGV.first == '-d' # exact match
-    ri.display_name ARGV[1]
-
-  elsif ARGV.first == '-m'  # class methods
-    ri.display_class_symbols ARGV[1]
-  elsif ARGV.first =~ /^[^A-Z]/
-    ri.display_method_matches ARGV.first
-  else
-    ri.display_matches ARGV.first
-  end
+  RIVim.run
 end
