@@ -71,13 +71,14 @@ function! StartRDocQuery()
   call feedkeys("a", 't')
 endfunction
 
-function! s:prepareBuffer()
+function! s:prepareDocBuffer()
   setlocal nowrap
   setlocal textwidth=0
   noremap <buffer> <Leader>m :call <SID>selectMethod()<cr>
   noremap <buffer> <cr> :call <SID>playTrack()<cr>
   noremap <buffer> K :call <SID>lookupNameUnderCursor()<CR>
   noremap <buffer> <CR> :call <SID>lookupNameUnderCursor()<CR>
+  noremap <buffer> u :call <SID>upToParentClass()<CR>
   let s:doc_bufnr = bufnr('%')
   autocmd BufRead <buffer> call <SID>syntaxLoad()
   call s:syntaxLoad()
@@ -208,7 +209,7 @@ function! s:displayDoc(query)
   call writefile(split(res, "\n"), cacheFile)
 
   exec "edit ".cacheFile
-  call s:prepareBuffer()
+  call s:prepareDocBuffer()
 endfunction
 
 func! s:syntaxLoad()
@@ -238,6 +239,11 @@ function! s:lookupNameUnderCursor()
     let query = classname.'#'.query
   endif
   call s:displayDoc(query)
+endfunction
+
+function! s:upToParentClass()
+  let classname = s:classname()
+  call s:displayDoc(classname)
 endfunction
 
 nnoremap <silent> <leader>j :call StartRDocQuery()<cr>
