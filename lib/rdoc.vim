@@ -222,6 +222,7 @@ func! s:syntaxLoad()
   highlight link h2         Constant
   highlight link h3         Constant
   set conceallevel=3
+  set concealcursor=n
 endfunc
 
 function! s:lookupNameUnderCursor()
