@@ -192,12 +192,13 @@ OK fixed the problem of the missing stuff: solution was to use
 
 at top
 
-Almost there. Remaining:
-  gem readmes
-  chdir to gem dir
+TODO. Almost there. Remaining:
+  chdir to gem dir (user can readme from there?)
   open rdoc html
-  - fail gracefully if no search result
-  - <tt> should be dark against dark bg, light against light
+  fail gracefully if no search result (try lookup with cursor)
+  ERB plugin install
+  Documentation/ homepage
+
 
 BUG
 - Time is missing instance and class methods -- why?
