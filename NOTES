@@ -209,3 +209,9 @@ Almost there. Next:
 BUG
 - Time is missing instance and class methods -- why?
 
+Use 7.3 conceal feature?
+
+:help conceal
+
+http://b4winckler.wordpress.com/2010/08/07/using-the-conceal-vim-feature-with-latex/
+

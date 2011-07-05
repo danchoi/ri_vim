@@ -211,9 +211,9 @@ endfunction
 
 func! s:syntaxLoad()
   syntax clear
-  syntax region rdoctt  matchgroup=ttTags start="<tt[^>]*>" end="</tt>"
-  syntax region rdoctt  matchgroup=ttTags start="<em[^>]*>" end="</em>"
-  highlight link rdoctt Type
+  syntax region rdoctt  matchgroup=ttTags start="<tt[^>]*>" end="</tt>" concealends
+  syntax region rdoctt  matchgroup=ttTags start="<em[^>]*>" end="</em>" concealends
+  highlight link rdoctt Identifier
   highlight link ttTags Comment
   syntax region h1  start="^="       end="\($\)" contains=@Spell
   syntax region h2  start="^=="      end="\($\)" contains=@Spell
@@ -221,6 +221,7 @@ func! s:syntaxLoad()
   highlight link h1         Constant
   highlight link h2         Constant
   highlight link h3         Constant
+  set conceallevel=3
 endfunc
 
 function! s:lookupNameUnderCursor()
