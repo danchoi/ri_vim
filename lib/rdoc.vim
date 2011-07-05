@@ -27,7 +27,7 @@ func! s:createCacheDir()
 endfunc
 
 function! s:runCommand(command)
-  " echom a:command " can use for debugging
+  echom a:command 
   let res = system(a:command)
   return res
 endfunction
@@ -92,8 +92,7 @@ endfunction
 
 function! RDocAutoComplete(findstart, base)
   if a:findstart
-    let prompt = s:selectionPrompt
-    let start = len(prompt) 
+    let start = 0
     return start
   else
     if (a:base == '')
@@ -192,7 +191,7 @@ function! s:doSearch()
   endif
 
   " for select method of class
-  if query =~ '^\.\|#'
+  if query =~ '^\.\|^#'
     let query = s:classname . query
   endif
 
@@ -205,9 +204,7 @@ function! s:displayDoc(query)
   let res = s:runCommand(bcommand)
   " We're caching is strictly so we can use CTRL-o and CTRL-i
   let cacheFile = substitute(s:cacheDir.'/'.a:query, '#', ',','')
-
   call writefile(split(res, "\n"), cacheFile)
-
   exec "edit ".cacheFile
   call s:prepareDocBuffer()
 endfunction

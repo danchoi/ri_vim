@@ -607,7 +607,6 @@ if __FILE__ == $0
 
   elsif ARGV.first == '-m'  # class methods
     ri.display_class_symbols ARGV[1]
-
   elsif ARGV.first =~ /^[^A-Z]/
     ri.display_method_matches ARGV.first
   else
