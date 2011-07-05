@@ -67,6 +67,7 @@ function! StartRDocQuery()
   inoremap <buffer> <cr> <Esc>:call <SID>doSearch()<cr>
   noremap <buffer> <cr> <Esc>:call <SID>doSearch()<cr>
   noremap <buffer> q <Esc>:close<cr>
+  noremap <buffer> <Esc> :close<cr>
   inoremap <buffer> <Tab> <C-x><C-u>
   call setline(1, "Search Ruby documentation (press tab to autocomplete)")
   call setline(2, line)
@@ -140,6 +141,7 @@ function! s:selectMethod()
   inoremap <buffer> <cr> <Esc>:call <SID>doSearch()<cr>
   noremap <buffer> <cr> <Esc>:call <SID>doSearch()<cr>
   noremap <buffer> q <Esc>:close<cr>
+  noremap <buffer> <Esc> :close<cr>
   inoremap <buffer> <Tab> <C-x><C-u>
   call setline(1, classname." methods: (press tab to autocomplete)")
   call setline(2, line)
