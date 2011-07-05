@@ -79,6 +79,7 @@ function! s:prepareDocBuffer()
   noremap <buffer> K :call <SID>lookupNameUnderCursor()<CR>
   noremap <buffer> <CR> :call <SID>lookupNameUnderCursor()<CR>
   noremap <buffer> u :call <SID>upToParentClass()<CR>
+  noremap <buffer> - :call <SID>upToParentClass()<CR>
   let s:doc_bufnr = bufnr('%')
   autocmd BufRead <buffer> call <SID>syntaxLoad()
   call s:syntaxLoad()
