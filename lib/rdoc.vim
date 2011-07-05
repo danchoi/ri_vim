@@ -15,7 +15,6 @@ endif
 let s:ri_tool = 'ri --format=rdoc '
 
 let s:selectionPrompt = ""
-let s:lastQuery = ""
 let s:cacheDir = $HOME."/.rdoc_vim/cache"
 
 func! s:trimString(string)
@@ -33,14 +32,14 @@ function! s:runCommand(command)
   return res
 endfunction
 
-
 function! StartRDocQuery()
-  if s:lastQuery != ''
-    let line = s:selectionPrompt . s:lastQuery
+  let classname = s:classname()
+  if classname != ''
+    let line = s:selectionPrompt . classname
   else
     let line = s:selectionPrompt
   endif
-  leftabove split SearchRDocs
+  leftabove split SearchRubyDocumentation
   setlocal textwidth=0
   setlocal completefunc=RDocAutoComplete
   setlocal buftype=nofile
@@ -60,7 +59,7 @@ endfunction
 function! s:prepareBuffer()
   setlocal nowrap
   setlocal textwidth=0
-  noremap <buffer> <Leader>s :call <SID>openQueryWindow()<cr>
+  noremap <buffer> <Leader>m :call <SID>selectMethod()<cr>
   noremap <buffer> <cr> :call <SID>playTrack()<cr>
   noremap <buffer> K :call <SID>lookupNameUnderCursor()<CR>
   noremap <buffer> <CR> :call <SID>lookupNameUnderCursor()<CR>
@@ -99,24 +98,89 @@ function! s:matchingNames(query)
   return split(system(command), '\n')
 endfunction
 
+
+
+" select a method from current class
+function! s:selectMethod()
+  let classname = s:classname()
+  if classname == ''
+    return
+  endif
+  let s:classname = classname
+  let s:classMethods = s:matchingMethods(s:classname)
+  let line = ""
+  leftabove split SelectMethod
+  setlocal textwidth=0
+  setlocal completefunc=RubyClassMethodComplete
+  setlocal buftype=nofile
+  setlocal noswapfile
+  setlocal modifiable
+  setlocal nowrap
+  resize 1
+  inoremap <buffer> <cr> <Esc>:call <SID>doSearch()<cr>
+  noremap <buffer> <cr> <Esc>:call <SID>doSearch()<cr>
+  noremap <buffer> q <Esc>:close<cr>
+  inoremap <buffer> <Tab> <C-x><C-u>
+  call setline(1, line)
+  normal $
+  call feedkeys("a", 't')
+endfunction
+
+function! RubyClassMethodComplete(findstart, base)
+  if a:findstart
+    let start = 0
+    return start
+  else
+    if (a:base == '')
+      return s:classMethods
+    else
+      let res = [] " find tracks matching a:base
+      for m in s:classMethods
+        " why doesn't case insensitive flag work?
+        if m =~ '^\c' . a:base 
+          call add(res, m)
+        endif
+      endfor
+      return res
+    endif
+  endif
+endfun
+
+function! s:matchingMethods(classname)
+  let command = s:rdoc_tool . '-m '. shellescape(a:classname)
+  echom command
+  return split(system(command), '\n')
+endfunction
+
+
 function! s:doSearch()
   if (getline('.') =~ '^\s*$')
     close
     return
   endif
-  let query = getline('.')[len(s:selectionPrompt):] 
+  let query = s:trimString(getline('.')[len(s:selectionPrompt):])
   close
   " echom query
   if (len(query) == 0 || query =~ '^\s*$')
     return
   endif
+  " clean up query string
   if query =~ '(\*)'
     let query = substitute(query, '\s*(\*)', '', '')
   endif
+  let query = substitute(query, '::$', '', '')
+
+  " for search for method
   if query =~ '\S\s\+\S'
     let parts = split(query)
     let query = get(parts, 1)
   endif
+
+  " for select method of class
+  if query =~ '^\.\|#'
+    let query = s:classname . query
+  endif
+
   wincmd p
   call s:displayDoc(query)
 endfunction
@@ -150,12 +214,8 @@ endfunc
 function! s:lookupNameUnderCursor()
   let query = substitute(expand("<cWORD>"), '[.,]$', '', '')
   let query = substitute(query, '</\?tt>', '', 'g')
+  let classname = s:classname()
   " look up class
-  let classname = ''
-  let x = matchstr(getline(1) , '= [A-Z]\S\+')
-  if x != ''
-    let classname = substitute(x, "^= ", '', '')
-  endif
   if query =~ '^\.'
     let query = classname.query
   elseif query =~ '^#'
@@ -166,6 +226,17 @@ function! s:lookupNameUnderCursor()
   call s:displayDoc(query)
 endfunction
 
+" parses the first line of the doc
+" e.g. ^= ActiveRecord::Base
+" and returns ActiveRecord::Base
+function! s:classname()
+  let x = matchstr(getline(1) , '= [A-Z]\S\+')
+  if x != ''
+    return substitute(x, "^= ", '', '')
+  else
+    return ''
+  endif
+endfunction
 
 nnoremap <silent> <leader>j :call StartRDocQuery()<cr>
 echo "vim_rdoc loaded"

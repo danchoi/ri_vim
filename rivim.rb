@@ -448,6 +448,44 @@ class RDoc::RI::Driver
     found.uniq
   end
 
+  def display_class_symbols name
+    return if name =~ /#|\./
+    klasses = []
+    includes = []
+    found = @stores.map do |store|
+      begin
+        klass = store.load_class name
+        klasses  << klass
+        includes << [klass.includes, store] if klass.includes
+        [store, klass]
+      rescue Errno::ENOENT
+      end
+    end.compact
+    return if found.empty?
+    includes.reject! do |modules,| modules.empty? end
+    found.each do |store, klass|
+      comment = klass.comment
+      class_methods    = store.class_methods[klass.full_name]
+      instance_methods = store.instance_methods[klass.full_name]
+      add_to_method_dropdown class_methods,    'Class methods'
+      add_to_method_dropdown instance_methods, 'Instance methods'
+    end
+  end
+
+  def add_to_method_dropdown methods, name
+    return unless methods && !methods.empty?
+    methods.each do |method|
+      if name == 'Class methods'
+        method = ".#{method}"
+      else
+        method = "##{method}"
+      end
+      puts method
+      #out << RDoc::Markup::IndentedParagraph.new(2, methods.join(', '))
+    end
+  end
+
+
   # Loads RI data for method +name+ on +klass+ from +store+.  +type+ and
   # +cache+ indicate if it is a class or instance method.
   def load_method store, cache, klass, type, name
@@ -529,6 +567,7 @@ class RDoc::RI::Driver
     gemdir = ENV["GEM_HOME"] + "/gems/#{gem}"
   end
 
+  # TODO
   def open_readme(gem)
     puts gemdir(gem)
     puts `ls #{gemdir(gem)}`
@@ -545,6 +584,10 @@ if __FILE__ == $0
     ri.open_readme gem
   elsif ARGV.first == '-d' # exact match
     ri.display_name ARGV[1]
+
+  elsif ARGV.first == '-m'  # class methods
+    ri.display_class_symbols ARGV[1]
+
   elsif ARGV.first =~ /^[^A-Z]/
     ri.display_method_matches ARGV.first
   else
