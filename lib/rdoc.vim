@@ -123,7 +123,7 @@ function! s:selectMethod()
   inoremap <buffer> <Tab> <C-x><C-u>
   call setline(1, line)
   normal $
-  call feedkeys("a", 't')
+  call feedkeys("a\<c-x>\<c-u>\<c-p>", 't')
 endfunction
 
 function! RubyClassMethodComplete(findstart, base)
@@ -190,9 +190,9 @@ function! s:displayDoc(query)
   let res = s:runCommand(bcommand)
   " We're caching is strictly so we can use CTRL-o and CTRL-i
   let cacheFile = substitute(s:cacheDir.'/'.a:query, '#', ',','')
-  if ! filereadable(cacheFile)
-    call writefile(split(res, "\n"), cacheFile)
-  endif
+
+  call writefile(split(res, "\n"), cacheFile)
+
   exec "edit ".cacheFile
   call s:prepareBuffer()
 endfunction

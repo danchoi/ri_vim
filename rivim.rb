@@ -307,7 +307,11 @@ class RDoc::RI::Driver
           store = v.first
           klass = store.load_class k
           has_comment = !klass.comment.empty?
-          "#{k} #{has_comment ? "(*)" : ''}"
+          if has_comment?
+            "#{k} (*)"
+          else
+            k.to_s
+          end
         }
     end
     puts matches.sort.join("\n")
