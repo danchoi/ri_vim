@@ -82,6 +82,7 @@ function! s:prepareDocBuffer()
   let s:doc_bufnr = bufnr('%')
   autocmd BufRead <buffer> call <SID>syntaxLoad()
   call s:syntaxLoad()
+  setlocal nomodifiable
 endfunction
 
 function! s:help()
@@ -242,7 +243,16 @@ endfunction
 
 function! s:upToParentClass()
   let classname = s:classname()
-  call s:displayDoc(classname)
+  if getline(1) =~ '\.\|#'  " we have a method
+    call s:displayDoc(classname)
+  else " try to go up class hierarchy
+    let classname = substitute(classname, '::[^:]\+$', '', '')
+    if classname == ''
+      return
+    else
+      call s:displayDoc(classname)
+    endif
+  end
 endfunction
 
 nnoremap <silent> <leader>j :call StartRDocQuery()<cr>
