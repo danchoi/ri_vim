@@ -106,7 +106,13 @@ function! RDocAutoComplete(findstart, base)
     else
       let res = [] " find tracks matching a:base
       for m in s:matchingNames(a:base)
-        call add(res, m)
+        " call add(res, m)
+        let parts = split(m, '\s\+')
+        if len(parts) > 1 && m !~ '^[^A-Z]' " make sure this is not method search, else we would need to treat the match as a unit
+          call add(res, {'word': parts[0], 'menu': parts[1]})
+        else
+          call add(res, m)
+        endif
       endfor
       return res
     endif
@@ -188,8 +194,7 @@ function! s:doSearch()
     return
   endif
   " clean up query string
-
-  let query = substitute(query, '\s*(\d\+)$', '', '')
+  " let query = substitute(query, '\s*(\d\+)$', '', '')
   let query = substitute(query, '::$', '', '')
 
   " for search for method
