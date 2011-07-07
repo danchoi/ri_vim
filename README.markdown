@@ -115,7 +115,7 @@ When you find a matching method or class or module and press `ENTER`, you
 should see the ri documentation, with a little bit of syntax coloring, display
 in a Vim window.
 
-![screenshot](https://github.com/danchoi/ri_vim/raw/master/screens/ri_string_doc.png)
+![screenshot](https://github.com/danchoi/ri_vim/raw/master/screens/ri_doc.png)
 
 You can move to cursor to any valid Ruby method or class/module name on this
 page (including the class and instance methods at the bottom) and press `ENTER`
