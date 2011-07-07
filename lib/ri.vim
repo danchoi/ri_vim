@@ -298,8 +298,8 @@ function! s:upToParentClass()
   end
 endfunction
 
-nnoremap <silent> <leader>r :call StartRDocQuery(0)<cr>
-nnoremap <silent> <leader>R :call StartRDocQuery(1)<cr>
+nnoremap <silent> <leader>ri :call StartRDocQuery(0)<cr>
+nnoremap <silent> <leader>RI :call StartRDocQuery(1)<cr>
 echo "vim_rdoc loaded"
 
 call s:createCacheDir()
