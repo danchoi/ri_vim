@@ -118,6 +118,16 @@ the class/module method autocompletion window:
 
 ![screenshot](https://github.com/danchoi/ri_vim/raw/master/screens/class_method_autocomplete.png)
 
+Here you can just start typing the method name (you don't need to indicate
+whether it is a class or instance method) and press `TAB`. Then the match list
+should narrow down your choices quickly. Again, the numbers here are a rough
+indicator of how much documentation there is to see for that method.
+
+Let's look at `#encode`, which is ranked at a `(5)`:
+
+![screenshot](https://github.com/danchoi/ri_vim/raw/master/screens/class_instance_method.png)
+
+
 
 
 * * *
