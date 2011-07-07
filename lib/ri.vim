@@ -8,7 +8,7 @@ if exists("g:rdoc_tool")
   let s:rdoc_tool = g:rdoc_tool
 else
   " This is the development version (specific to D Choi's setup)
-  let s:rdoc_tool = 'ruby -Ilib bin/ri_vim '
+  let s:rdoc_tool = 'ruby -I/home/choi/p/ri_vim/lib /home/choi/p/ri_vim/bin/ri_vim '
   " Maybe I should make this a relative path
 endif
 
@@ -93,7 +93,7 @@ function! StartRDocQuery(verticalSplit)
   noremap <buffer> q <Esc>:close<cr>
   noremap <buffer> <Esc> :close<cr>
   inoremap <buffer> <Tab> <C-x><C-u>
-  call setline(1, "Search Ruby documentation (press tab to autocomplete)")
+  call setline(1, "Search Ruby documentation (press tab to autocomplete):")
   call setline(2, line)
   normal G$
   call feedkeys("a", 't')
@@ -114,7 +114,7 @@ function! s:prepareDocBuffer()
   noremap <buffer> <Leader>q :call <SID>closeRIVim()<cr>
 
   let s:browser_bufnr = bufnr('%')
-  autocmd BufRead <buffer> call <SID>syntaxLoad()
+  autocmd BufRead <buffer> call <SID>prepareDocBuffer()
   call s:syntaxLoad()
   setlocal nomodifiable
 endfunction
@@ -175,7 +175,7 @@ function! s:selectMethod()
   noremap <buffer> q <Esc>:close<cr>
   noremap <buffer> <Esc> :close<cr>
   inoremap <buffer> <Tab> <C-x><C-u>
-  call setline(1, classname." methods: (press tab to autocomplete)")
+  call setline(1, classname." > look up method (press tab to autocomplete):")
   call setline(2, line)
   normal G$
   call feedkeys("a\<c-x>\<c-u>\<c-p>", 't')
@@ -309,8 +309,10 @@ function! s:gemDirectory()
     return
   endif
   let gem = get(matchlist(getline(res), s:gemNamePattern), 1)
-  let gem_path = $GEM_HOME.'/gems/'.gem
-  exec 'lcd '.gem_path
+  let readme_glob = $GEM_HOME.'/gems/'.gem.'/README*'
+  let readme = get(split(glob(readme_glob), "\n"), 0)
+  exec "edit ".readme
+  call s:prepareDocBuffer()
 endfunction
 
 function! s:help()
