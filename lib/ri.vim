@@ -219,7 +219,11 @@ function! s:displayDoc(query)
   let bcommand = s:rdoc_tool.'-d '.shellescape(a:query)
   let res = s:runCommand(bcommand)
   " We're caching is strictly so we can use CTRL-o and CTRL-i
-  let cacheFile = substitute(s:cacheDir.'/'.a:query, '#', ',','')
+  " escape any character that could cause a problem in saving the filename
+  let fileName = substitute(a:query, '[%!*&]', '\\&', '')
+  let cacheFile = substitute(s:cacheDir.'/'.fileName, '#', ',','')
+  " escape characters than can't be in a filename
+  " let cacheFile = substitute(cacheFile, '[#*]', ',','')
   call writefile(split(res, "\n"), cacheFile)
   exec "edit ".cacheFile
   call s:prepareDocBuffer()
