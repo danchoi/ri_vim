@@ -1,7 +1,7 @@
-# ri.vim / ri Vim plugin
+# ri.vim : ri plugin for Vim
 
-The ri Vim plugin lets you search and navigate Ruby library and gem
-documentation inside Vim.
+`ri.vim` lets you search and navigate Ruby library and gem documentation inside
+Vim.
 
 [screenshots]
 
@@ -28,24 +28,100 @@ Then
 
     ri_vim_install
 
-`ri_vim_install` installs the ri.vim plugin into your ~/.vim/plugin directory. 
+This installs the ri.vim plugin into your ~/.vim/plugin directory. 
 
 To upgrade ri.vim to a newer version, just repeat the installation procedure.
 Don't forget to run `ri_vim_install` again after you download the new gem.
 
+The next step is to make sure that you have ri documentation installed on your
+system for everything you want to look up. See the **Generate ri documentation**
+section below for help.
 
+
+## Commands
+
+For the all the commands below, the mapleader is assumed to be `,`. If it is
+`\` or something else for your setup, use that instead.
+
+### Invoking the plugin
+
+* `,r` opens the search/autocomplete window, and will use a horizontal split to display matching documentation
+* `,R` opens the search/autocomplete window, and will use a vertical split to display matching documentatoin
+* `,K` opens th search/autocomplete window and prefills it with the keyword under the cursor
+
+These mappings will work irrespective of the filetype of your current buffer.
+
+If these mapping clash or you don't like them, you can override them by
+appending something like this to your `.vimrc`:
+
+    nnoremap  ,ri :call ri#OpenRISearchPrompt(0)<cr> " horizonal split
+    nnoremap  ,RI :call ri#OpenRISearchPrompt(1)<cr> " vertical split
+    nnoremap  ,RK :call ri#LookupNameUnderCursor()<cr> " keyword lookup 
+
+### Using the search/autocomplete window
+
+Simply start typing the name of the class, module, or method you want to lookup.
+
+
+
+
+## Generate ri documentation
+
+`ri.vim` won't work very well unless you have generated ri documentation for
+your Ruby built-in library, standard library, and your installed Ruby gems.
+
+Please consult other reference sources for instructions specific to your
+particular setup.
+
+But I'll try to cover some common cases:
+
+If you use RVM, run this to install ri documentation for the built-in and
+standard library of your active Ruby installation:
+
+    rvm docs generate-ri
+
+You can check if this worked by running a command like `ri Enumerable` or `ri
+IO` on the comand line. 
+
+You may run into the following an error when you run this rvm command:
+
+    uh-oh! RDoc had a problem:
+    invalid option: --ri-site generator already set to ri
+
+If you see this, you should patch the `~/.rvm/scripts/docs` script.  Find the
+`generate_ri()` function and replace this line:
+
+    rdoc -a --ri --ri-site > /dev/null 2>> ${rvm_log_path}/$rvm_docs_ruby_string/docs.log
+
+with:
+
+    rdoc -a --ri 
+
+and run `rvm docs generate-ri` again.
+
+To generate ri documentation for your gems, reinstall the ones currently
+without ri documentation with the following command
+
+    gem install [gemname] --ri
+
+and then check to see if this worked by using ri to look up a class or module
+in that gem; e.g.,
+
+    ri ActiveRecord::Associations::ClassMethods
+    
+If you like using `ri.vim`, you may want to make to remove `--no-ri` if you
+added that to your `.gemrc`. This will make sure that the `gem install` command
+automatically generates ri documentation.
 
 
 ## Acknowledgements
 
-Special thanks to Eric Hodel, the maintainer of ri and rdoc, for providing and
-maintaining the whole ri and rdoc infrastructure that ri.vim builds on.
+Special thanks to Eric Hodel for developing and maintaining the whole ri and
+rdoc infrastructure that ri.vim builds on. ri.vim adds just a little piece to
+that very useful codebase.
 
-And to Tim Pope, who continues to lead the way in making Vim a
-ultra-productive environment for Ruby programming.
-
-
-
+And also to Tim Pope, who continues to lead the way in making Vim a very
+productive and happy environment for crafting Ruby software.
 
 
 
