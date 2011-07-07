@@ -73,11 +73,15 @@ for a namespace-nested module or class, you can autocomplete the first
 namespace, type `:` and then press `TAB` again to autocomplete the next inner
 namespace.
 
+![screenshot](https://github.com/danchoi/ri_vim/raw/master/screens/nested_search.png)
+
 If you've started typing a name starting with a lower case letter or 
 a symbol that is valid in Ruby method names (i.e., `/^[=*\/&|%^\[<>]/`), ri.vim
 will suggest matching methods from different classes and modules.
 
 ![screenshot](https://github.com/danchoi/ri_vim/raw/master/screens/method_search.png)
+
+
     
 
 * * *
