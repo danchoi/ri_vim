@@ -157,7 +157,7 @@ If you are looking at documentation for a Gem, you can see the README for
 that gem (assuming it exists and is called README.*) by pressing `,g`.
 
 If you've generated the HTML RDoc documentation for this Gem, you can open it
-in a web browser by pressing `,g`.
+in a web browser by pressing `,h`.
 
 
 ## How to generate ri documentation
