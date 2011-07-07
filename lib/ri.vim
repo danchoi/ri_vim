@@ -113,7 +113,6 @@ function! s:prepareDocBuffer()
   noremap <buffer> <Leader>q :call <SID>closeRIVim()<cr>
 
   let s:browser_bufnr = bufnr('%')
-  autocmd BufRead <buffer> call <SID>syntaxLoad()
   call s:syntaxLoad()
   setlocal nomodifiable
 endfunction
@@ -238,7 +237,7 @@ function! s:displayDoc(query)
   let res = s:runCommand(bcommand)
   " We're caching is strictly so we can use CTRL-o and CTRL-i
   " escape any character that could cause a problem in saving the filename
-  let fileName = a:query
+  let fileName = a:query.".rivim"
   let cacheFile = substitute(s:cacheDir.'/'.fileName, '#', ',','')
   " escape characters than can't be in a filename
   " let cacheFile = substitute(cacheFile, '[#*]', ',','')
@@ -335,6 +334,7 @@ endfunction
 nnoremap <silent> <leader>r :call StartRDocQuery(0)<cr>
 nnoremap <silent> <leader>R :call StartRDocQuery(1)<cr>
 
+autocmd BufRead *.rivim call <SID>syntaxLoad()
 
 call s:createCacheDir()
 
