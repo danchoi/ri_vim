@@ -48,6 +48,26 @@ function! s:classname()
   endif
 endfunction
 
+function! s:focusBrowserWindow()
+  if bufwinnr(s:browser_bufnr) == winnr() 
+    return
+  end
+  let winnr = bufwinnr(s:browser_bufnr) 
+  if winnr == -1
+    " create window
+    if s:verticalSplit 
+      rightbelow vsplit 
+    else
+      rightbelow split 
+    endif
+    let s:inBrowser = 1
+
+  else
+    exec winnr . "wincmd w"
+  endif
+endfunction
+
+
 function! StartRDocQuery(verticalSplit)
   let s:verticalSplit = a:verticalSplit 
   let classname = s:classname()
@@ -86,7 +106,7 @@ function! s:prepareDocBuffer()
   noremap <buffer> - :call <SID>upToParentClass()<CR>
   noremap <buffer> q :call <SID>closeRIVim()<cr>
   noremap <buffer> <Leader>q :call <SID>closeRIVim()<cr>
-  let s:doc_bufnr = bufnr('%')
+  let s:browser_bufnr = bufnr('%')
   autocmd BufRead <buffer> call <SID>syntaxLoad()
   call s:syntaxLoad()
   setlocal nomodifiable
@@ -201,33 +221,17 @@ function! s:doSearch()
   if (len(query) == 0 || query =~ '^\s*$')
     return
   endif
-
-  " clean up query string
-  " let query = substitute(query, '\s*(\d\+)$', '', '')
-  "
   let query = substitute(query, '::$', '', '')
-
   " for search for method
   if query =~ '\S\s\+\S'
     let parts = split(query)
     let query = get(parts, 1)
   endif
-
   " for select method of class
   if query =~ '^\.\|^#'
     let query = s:classname . query
   endif
-
-  if s:inBrowser == 0
-    if s:verticalSplit 
-      rightbelow vsplit 
-    else
-      rightbelow split 
-    endif
-    let s:inBrowser = 1
-  endif
-  
- " wincmd p
+  call s:focusBrowserWindow()
   call s:displayDoc(query)
 endfunction
 
