@@ -5,7 +5,7 @@ Vim.
 
 [screenshots]
 
-Advantages over the venerable command-line `ri` tool:
+Advantages over the venerable `ri` command-line tool:
 
 * write code and browse pertinent documentation in adjacent Vim windows
 * powerful autocompletion help
@@ -73,12 +73,12 @@ for a namespace-nested module or class, you can autocomplete the first
 namespace, type `:` and then press `TAB` again to autocomplete the next inner
 namespace.
 
-If you've started typing a name starting with a lower case letter or some kind
-of symbol that is valid in Ruby method names (e.g., `^[=*/&|/%^\[<>]`), ri.vim
+If you've started typing a name starting with a lower case letter or 
+a symbol that is valid in Ruby method names (i.e., `/^[=*\/&|%^\[<>]/`), ri.vim
 will suggest matching methods from different classes and modules.
 
-
-
+![screenshot](https://github.com/danchoi/ri_vim/raw/master/screens/method_search.png)
+    
 
 * * *
 
