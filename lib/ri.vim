@@ -278,17 +278,26 @@ func! s:syntaxLoad()
 endfunc
 
 function! s:lookupNameUnderCursor()
-  let query = substitute(expand("<cWORD>"), '[.,]$', '', '')
+  let query = substitute(expand("<cWORD>"), '[.,;]$', '', '')
   let query = substitute(query, '</\?tt>', '', 'g')
   let classname = s:classname()
-  " look up class
-  if query =~ '^\.'
-    let query = classname.query
-  elseif query =~ '^#'
-    let query = classname.query
+  if classname != ''
+    " look up class
+    if query =~ '^\.'
+      let query = classname.query
+    elseif query =~ '^#'
+      let query = classname.query
+    elseif query =~ '^[^A-Z]'
+      let query = classname.'#'.query
+    endif
+  " see if we're looking up a method
   elseif query =~ '^[^A-Z]'
-    let query = classname.'#'.query
+    " run the method lookup
+    call StartRDocQuery(0)
+    call feedkeys(query."\<c-x>\<c-u>", "t")
+    return
   endif
+  call s:focusBrowserWindow()
   call s:displayDoc(query)
 endfunction
 
@@ -345,6 +354,7 @@ endfunction
 
 nnoremap <silent> <leader>r :call StartRDocQuery(0)<cr>
 nnoremap <silent> <leader>R :call StartRDocQuery(1)<cr>
+nnoremap <silent> <leader>K :call <SID>lookupNameUnderCursor()<cr>
 
 autocmd BufRead *.rivim call <SID>updateBrowserBufNrAndLoadSyntax()
 
