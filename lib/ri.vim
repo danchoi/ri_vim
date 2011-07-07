@@ -15,7 +15,7 @@ endif
 let s:ri_tool = 'ri --format=rdoc '
 
 let s:selectionPrompt = ""
-let s:cacheDir = $HOME."/.rdoc_vim/cache"
+let s:cacheDir = $HOME."/.ri_vim/cache"
 
 func! s:trimString(string)
   let string = substitute(a:string, '\s\+$', '', '')
@@ -47,7 +47,6 @@ function! s:classname()
     return ''
   endif
 endfunction
-
 
 function! StartRDocQuery()
   let classname = s:classname()
@@ -220,12 +219,12 @@ function! s:displayDoc(query)
   let res = s:runCommand(bcommand)
   " We're caching is strictly so we can use CTRL-o and CTRL-i
   " escape any character that could cause a problem in saving the filename
-  let fileName = fnameescape(a:query)
+  let fileName = a:query
   let cacheFile = substitute(s:cacheDir.'/'.fileName, '#', ',','')
   " escape characters than can't be in a filename
   " let cacheFile = substitute(cacheFile, '[#*]', ',','')
-  call writefile(split(res, "\n"), cacheFile)
-  exec "edit ".cacheFile
+  call writefile(split(res, "\n"), fnameescape(cacheFile))
+  exec "edit ".fnameescape(fnameescape(cacheFile))
   call s:prepareDocBuffer()
 endfunction
 
