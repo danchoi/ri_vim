@@ -108,7 +108,8 @@ function! s:prepareDocBuffer()
   noremap <buffer> <CR> :call <SID>lookupNameUnderCursor()<CR>
   noremap <buffer> u :call <SID>upToParentClass()<CR>
   noremap <buffer> - :call <SID>upToParentClass()<CR>
-  noremap <buffer> <Leader>g :call <SID>gemDirectory()<CR>
+  noremap <buffer> <Leader>g :call <SID>openREADME()<CR>
+  noremap <buffer> <Leader>h :call <SID>openRDoc()<CR>
 
   " noremap <buffer> q :call <SID>closeRIVim()<cr>
   noremap <buffer> <Leader>q :call <SID>closeRIVim()<cr>
@@ -303,16 +304,28 @@ function! s:upToParentClass()
 endfunction
 
 let s:gemNamePattern =  '^(from gem \([^)]\+\)'  
-function! s:gemDirectory()
+
+function! s:gem()
   let res = search(s:gemNamePattern, 'w')
   if res == 0
     return
   endif
   let gem = get(matchlist(getline(res), s:gemNamePattern), 1)
+  return gem
+endfunction
+
+function! s:openREADME()
+  let gem = s:gem()
   let readme_glob = $GEM_HOME.'/gems/'.gem.'/README*'
   let readme = get(split(glob(readme_glob), "\n"), 0)
   exec "edit ".readme
   call s:prepareDocBuffer()
+endfunction
+
+function! s:openRDoc()
+  let gem = s:gem()
+  let rdoc_index = $GEM_HOME.'/doc/'.gem.'/rdoc/index.html'
+  exec "!open ".rdoc_index
 endfunction
 
 function! s:help()
@@ -322,8 +335,8 @@ function! s:help()
 endfunction
 
 
-nnoremap <silent> <leader>ri :call StartRDocQuery(0)<cr>
-nnoremap <silent> <leader>RI :call StartRDocQuery(1)<cr>
+nnoremap <silent> <leader>r :call StartRDocQuery(0)<cr>
+nnoremap <silent> <leader>R :call StartRDocQuery(1)<cr>
 echo "vim_rdoc loaded"
 
 call s:createCacheDir()

@@ -194,6 +194,9 @@ at top
 
 TODO. Almost there. Remaining:
   open rdoc html
+
+[choi kaja~/.rvm/gems/ruby-1.9.2-p180/doc/activerecord-3.0.5/rdoc]$
+
   ERB plugin install
   Documentation/ homepage
   - vertical/horizonal ri window modes
