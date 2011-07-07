@@ -10,7 +10,7 @@ Benefits:
 
 ## Prerequisites
 
-* Ruby 1.9.2
+* Ruby 1.9.2 (but may work with other versions)
 * Vim 7.3 (will not work on 7.2) 
 
 ## Install
@@ -30,7 +30,7 @@ probably have a `PATH` issue. Try one of these workarounds:
 * Put the directory where Rubygems installs executables on your `PATH`
 * Try installing with `sudo gem install ri_vim && ri_vim_install`
 
-To upgrade ViTunes to a newer version, just repeat the installation procedure.
+To upgrade RIVim to a newer version, just repeat the installation procedure.
 Don't forget to run `ri_vim_install` again after you download the new gem.
 
 
