@@ -3,7 +3,7 @@ $:.push File.expand_path("../lib", __FILE__)
 require "ri_vim/version"
 
 Gem::Specification.new do |s|
-  s.name        = "ri_vim"
+  s.name        = "rivim"
   s.version     = RIVim::VERSION
   s.platform    = Gem::Platform::RUBY
   s.required_ruby_version = '>= 1.8.6'
@@ -14,14 +14,14 @@ Gem::Specification.new do |s|
   s.summary     = %q{Browse Ruby documentation in Vim}
   s.description = %q{Browse Ruby documentation in Vim}
 
-  s.rubyforge_project = "ri_vim"
+  s.rubyforge_project = "rivim"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
-  message = "* Now please run ri_vim_install to install the Vim plugin *"
+  message = "* Now please run rivim-install to install the Vim plugin *"
   divider = "*" * message.length 
   s.post_install_message = [divider, message, divider].join("\n")
 
