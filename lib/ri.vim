@@ -234,6 +234,14 @@ function! s:doSearch()
   if query =~ '^\.\|^#'
     let query = s:classname . query
   endif
+
+  if query =~ '^[^A-Z]'
+    " run the method lookup
+    call ri#OpenSearchPrompt(0)
+    call feedkeys(query."\<c-x>\<c-u>", "t")
+    return
+  endif
+
   call s:focusBrowserWindow()
   call s:displayDoc(query)
 endfunction
