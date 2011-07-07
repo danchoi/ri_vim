@@ -13,9 +13,9 @@ else
 endif
 
 let s:ri_tool = 'ri --format=rdoc '
-
 let s:selectionPrompt = ""
 let s:cacheDir = $HOME."/.ri_vim/cache"
+let s:inBrowser = 0
 
 func! s:trimString(string)
   let string = substitute(a:string, '\s\+$', '', '')
@@ -84,13 +84,18 @@ function! s:prepareDocBuffer()
   noremap <buffer> <CR> :call <SID>lookupNameUnderCursor()<CR>
   noremap <buffer> u :call <SID>upToParentClass()<CR>
   noremap <buffer> - :call <SID>upToParentClass()<CR>
-  noremap <buffer> <Leader>r :close<cr>
-  noremap <buffer> <Leader>R :close<cr>
+  noremap <buffer> q :call <SID>closeRIVim()<cr>
+  noremap <buffer> <Leader>q :call <SID>closeRIVim()<cr>
   let s:doc_bufnr = bufnr('%')
   autocmd BufRead <buffer> call <SID>syntaxLoad()
   call s:syntaxLoad()
   setlocal nomodifiable
 endfunction
+
+function! s:closeRIVim()
+  let s:inBrowser = 0
+  close!
+endfunc
 
 function! s:help()
   " This just displays the README
@@ -192,15 +197,11 @@ function! s:doSearch()
   endif
   let query = s:trimString(getline('.')[len(s:selectionPrompt):])
   close
-  if s:verticalSplit 
-    vsplit 
-  else
-    rightbelow split 
-  endif
   " echom query
   if (len(query) == 0 || query =~ '^\s*$')
     return
   endif
+
   " clean up query string
   " let query = substitute(query, '\s*(\d\+)$', '', '')
   "
@@ -217,7 +218,16 @@ function! s:doSearch()
     let query = s:classname . query
   endif
 
-  wincmd p
+  if s:inBrowser == 0
+    if s:verticalSplit 
+      rightbelow vsplit 
+    else
+      rightbelow split 
+    endif
+    let s:inBrowser = 1
+  endif
+  
+ " wincmd p
   call s:displayDoc(query)
 endfunction
 

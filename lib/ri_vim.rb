@@ -83,8 +83,8 @@ class RIVim
 
   # Adds "(from ...)" to +out+ for +store+
   def add_from out, store
-    out << RDoc::Markup::Paragraph.new("(from #{store.friendly_path})")
-    #out << RDoc::Markup::Paragraph.new("(from #{store.path})")
+    #out << RDoc::Markup::Paragraph.new("(from #{store.friendly_path})")
+    out << RDoc::Markup::Paragraph.new("(from #{store.path})")
   end
 
   # Adds +includes+ to +out+
