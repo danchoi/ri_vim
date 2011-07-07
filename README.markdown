@@ -46,18 +46,38 @@ For the all the commands below, the mapleader is assumed to be `,`. If it is
 
 ### Invoking the plugin
 
-* `,r` opens the search/autocomplete window, and will use a horizontal split to display matching documentation
-* `,R` opens the search/autocomplete window, and will use a vertical split to display matching documentatoin
-* `,K` opens th search/autocomplete window and prefills it with the keyword under the cursor
+* `,r` opens the search/autocomplete window, and will use a horizontal split to
+  display matching documentation
+* `,R` opens the search/autocomplete window, and will use a vertical split to
+  display matching documentatoin
+* `,K` opens the search/autocomplete window and prefills it with the keyword
+  under the cursor
 
 These mappings will work irrespective of the filetype of your current buffer.
+You don't have to be looking at a Ruby file to invoke ri.vim. You could, e.g.,
+be writing a blog post about Ruby.
 
 If these mapping clash or you don't like them, you can override them. See
 **Changing keymappings** below.
 
 ### Using the search/autocomplete window
 
-Simply start typing the name of the class, module, or method you want to lookup.
+Withe the search/autocomplete window open, start typing the name of the class,
+module, or method you want to lookup.
+
+Press `TAB` to start autocompletion.
+
+If you've started typing a name starting with a capital letter, you'll see
+autocompletion suggestions for matching classes and modules. If you're looking
+for a namespace-nested module or class, you can autocomplete the first 
+namespace, type `:` and then press `TAB` again to autocomplete the next inner
+namespace.
+
+If you've started typing a name starting with a lower case letter or some kind
+of symbol that is valid in Ruby method names (e.g., `^[=*/&|/%^\[<>]`), ri.vim
+will suggest matching methods from different classes and modules.
+
+
 
 
 * * *
