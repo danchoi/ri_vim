@@ -193,7 +193,6 @@ OK fixed the problem of the missing stuff: solution was to use
 at top
 
 TODO. Almost there. Remaining:
-  chdir to gem dir (user can readme from there?)
   open rdoc html
   ERB plugin install
   Documentation/ homepage
