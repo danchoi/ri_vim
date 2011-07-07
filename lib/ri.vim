@@ -76,7 +76,7 @@ function! s:focusBrowserWindow()
   endif
 endfunction
 
-function! ri#OpenRISearchPrompt(verticalSplit)
+function! ri#OpenSearchPrompt(verticalSplit)
   let s:verticalSplit = a:verticalSplit 
   let classname = s:classname()
   if classname != ''
@@ -293,7 +293,7 @@ function! ri#LookupNameUnderCursor()
   " see if we're looking up a method
   elseif query =~ '^[^A-Z]'
     " run the method lookup
-    call ri#OpenRISearchPrompt(0)
+    call ri#OpenSearchPrompt(0)
     call feedkeys(query."\<c-x>\<c-u>", "t")
     return
   endif
@@ -352,10 +352,10 @@ function! s:help()
 endfunction
 
 
-if !hasmapto("ri#OpenRISearchPrompt",'n')
+if !hasmapto("ri#OpenSearchPrompt",'n')
   echom "no mappings yet"
-  nnoremap <silent> <leader>r :call ri#OpenRISearchPrompt(0)<cr>
-  nnoremap <silent> <leader>R :call ri#OpenRISearchPrompt(1)<cr>
+  nnoremap <silent> <leader>r :call ri#OpenSearchPrompt(0)<cr>
+  nnoremap <silent> <leader>R :call ri#OpenSearchPrompt(1)<cr>
   nnoremap <silent> <leader>K :call ri#LookupNameUnderCursor()<cr>
 endif
 

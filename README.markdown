@@ -37,6 +37,7 @@ The next step is to make sure that you have ri documentation installed on your
 system for everything you want to look up. See the **Generate ri documentation**
 section below for help.
 
+* * * 
 
 ## Commands
 
@@ -51,19 +52,15 @@ For the all the commands below, the mapleader is assumed to be `,`. If it is
 
 These mappings will work irrespective of the filetype of your current buffer.
 
-If these mapping clash or you don't like them, you can override them by
-appending something like this to your `.vimrc`:
-
-    nnoremap  ,ri :call ri#OpenRISearchPrompt(0)<cr> " horizonal split
-    nnoremap  ,RI :call ri#OpenRISearchPrompt(1)<cr> " vertical split
-    nnoremap  ,RK :call ri#LookupNameUnderCursor()<cr> " keyword lookup 
+If these mapping clash or you don't like them, you can override them. See
+**Changing keymappings** below.
 
 ### Using the search/autocomplete window
 
 Simply start typing the name of the class, module, or method you want to lookup.
 
 
-
+* * *
 
 ## Generate ri documentation
 
@@ -113,6 +110,17 @@ If you like using `ri.vim`, you may want to make to remove `--no-ri` if you
 added that to your `.gemrc`. This will make sure that the `gem install` command
 automatically generates ri documentation.
 
+
+## Changing keymappings
+
+You can change the keymappings for invoking ri.vim by appending something like
+this to your `.vimrc`:
+
+    nnoremap  ,ri :call ri#OpenSearchPrompt(0)<cr> " horizonal split
+    nnoremap  ,RI :call ri#OpenSearchPrompt(1)<cr> " vertical split
+    nnoremap  ,RK :call ri#LookupNameUnderCursor()<cr> " keyword lookup 
+
+* * *
 
 ## Acknowledgements
 
