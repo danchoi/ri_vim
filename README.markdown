@@ -177,7 +177,7 @@ standard library of your active Ruby installation:
     rvm docs generate-ri
 
 You can check if this worked by running a command like `ri Enumerable` or `ri
-IO` on the comand line. 
+IO` on the command line. 
 
 You may run into the following an error when you run this rvm command:
 
