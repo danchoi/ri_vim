@@ -30,6 +30,10 @@ function! s:runCommand(command)
   return res
 endfunction
 
+function! RIVimStatusLine()
+  return "%<%f\ Press '.mapleader.'? for help. "."%r%=%-14.(%l,%c%V%)\ %P"
+endfunction
+
 " parses the first line of the doc
 " e.g. ^= ActiveRecord::Base
 " and returns ActiveRecord::Base
@@ -111,6 +115,8 @@ function! s:prepareDocBuffer()
 
   " noremap <buffer> q :call <SID>closeRIVim()<cr>
   noremap <buffer> <Leader>q :call <SID>closeRIVim()<cr>
+  noremap <buffer> <Leader>? :call <SID>help()<CR>
+  setlocal statusline=%!RIVimStatusLine()
 
   let s:browser_bufnr = bufnr('%')
   call s:syntaxLoad()
