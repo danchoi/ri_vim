@@ -81,8 +81,34 @@ will suggest matching methods from different classes and modules.
 
 ![screenshot](https://github.com/danchoi/ri_vim/raw/master/screens/method_search.png)
 
+Use the standard Vim autocompletion commands to move up and down the match
+list.
 
+* `CTRL-p` and `CTRL-n` let you navigate the drop-down matches. Press `ENTER` to select
+one.
+* `CTRL-e` closes the match list and lets you continue typing
+* `CTRL-u`: when the match list is active, cycles forward through the match
+  list and what you've typed so far; when the match list is inactive, erases
+  what you've typed.
+* both `TAB` and `CTRL-x CTRL-u` reactivates autocompletion if it's gone away
+* `CTRL-y` selects the highlighted match without triggering ENTER
+
+When you're searching for a class or module (but not yet for method searches),
+you will sometimes see a little number in parentheses to the right of a match.
+This is a rough indicator of how much actual documentation there is to see for
+that class or module. It actually represents how many "parts" of the generated
+documentation has a "comment" associated with it. (Don't ask me what the
+definition of a "part" is; it's just something the RDoc::RI codebase knows
+about.)
     
+### The documentation window
+
+When you find a matching method or class or module and press `ENTER`, you
+should see the ri documentation, with a little bit of syntax coloring, display
+in a Vim window.
+
+![screenshot](https://github.com/danchoi/ri_vim/raw/master/screens/ri_string_doc.png)
+
 
 * * *
 
