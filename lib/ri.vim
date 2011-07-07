@@ -48,7 +48,8 @@ function! s:classname()
   endif
 endfunction
 
-function! StartRDocQuery()
+function! StartRDocQuery(verticalSplit)
+  let s:verticalSplit = a:verticalSplit 
   let classname = s:classname()
   if classname != ''
     let line = s:selectionPrompt . classname
@@ -83,6 +84,8 @@ function! s:prepareDocBuffer()
   noremap <buffer> <CR> :call <SID>lookupNameUnderCursor()<CR>
   noremap <buffer> u :call <SID>upToParentClass()<CR>
   noremap <buffer> - :call <SID>upToParentClass()<CR>
+  noremap <buffer> <Leader>r :close<cr>
+  noremap <buffer> <Leader>R :close<cr>
   let s:doc_bufnr = bufnr('%')
   autocmd BufRead <buffer> call <SID>syntaxLoad()
   call s:syntaxLoad()
@@ -123,7 +126,6 @@ function! s:matchingNames(query)
   echom command
   return split(system(command), '\n')
 endfunction
-
 
 
 " select a method from current class
@@ -190,6 +192,11 @@ function! s:doSearch()
   endif
   let query = s:trimString(getline('.')[len(s:selectionPrompt):])
   close
+  if s:verticalSplit 
+    vsplit 
+  else
+    rightbelow split 
+  endif
   " echom query
   if (len(query) == 0 || query =~ '^\s*$')
     return
@@ -281,7 +288,8 @@ function! s:upToParentClass()
   end
 endfunction
 
-nnoremap <silent> <leader>j :call StartRDocQuery()<cr>
+nnoremap <silent> <leader>r :call StartRDocQuery(0)<cr>
+nnoremap <silent> <leader>R :call StartRDocQuery(1)<cr>
 echo "vim_rdoc loaded"
 
 call s:createCacheDir()
