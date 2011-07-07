@@ -15,7 +15,6 @@ endif
 let s:ri_tool = 'ri --format=rdoc '
 let s:selectionPrompt = ""
 let s:cacheDir = $HOME."/.ri_vim/cache"
-let s:inBrowser = 0
 
 func! s:trimString(string)
   let string = substitute(a:string, '\s\+$', '', '')
@@ -49,6 +48,14 @@ function! s:classname()
 endfunction
 
 function! s:focusBrowserWindow()
+  if !exists("s:browser_bufnr")
+    if s:verticalSplit 
+      rightbelow vsplit 
+    else
+      rightbelow split 
+    endif
+    return
+  endif
   if bufwinnr(s:browser_bufnr) == winnr() 
     return
   end
@@ -60,13 +67,10 @@ function! s:focusBrowserWindow()
     else
       rightbelow split 
     endif
-    let s:inBrowser = 1
-
   else
     exec winnr . "wincmd w"
   endif
 endfunction
-
 
 function! StartRDocQuery(verticalSplit)
   let s:verticalSplit = a:verticalSplit 
@@ -104,8 +108,11 @@ function! s:prepareDocBuffer()
   noremap <buffer> <CR> :call <SID>lookupNameUnderCursor()<CR>
   noremap <buffer> u :call <SID>upToParentClass()<CR>
   noremap <buffer> - :call <SID>upToParentClass()<CR>
-  noremap <buffer> q :call <SID>closeRIVim()<cr>
+  noremap <buffer> <Leader>g :call <SID>gemDirectory()<CR>
+
+  " noremap <buffer> q :call <SID>closeRIVim()<cr>
   noremap <buffer> <Leader>q :call <SID>closeRIVim()<cr>
+
   let s:browser_bufnr = bufnr('%')
   autocmd BufRead <buffer> call <SID>syntaxLoad()
   call s:syntaxLoad()
@@ -113,15 +120,8 @@ function! s:prepareDocBuffer()
 endfunction
 
 function! s:closeRIVim()
-  let s:inBrowser = 0
   close!
 endfunc
-
-function! s:help()
-  " This just displays the README
-  let res = system("rdoc-help") 
-  echo res  
-endfunction
 
 function! RDocAutoComplete(findstart, base)
   if a:findstart
@@ -301,6 +301,19 @@ function! s:upToParentClass()
     endif
   end
 endfunction
+
+let s:gemNamePattern =  '^(from gem (\[^)]\+)'  
+function! s:gemDirectory()
+  let res = search(s:gemNamePattern, 'w')
+  echo res
+endfunction
+
+function! s:help()
+  " This just displays the README
+  let res = system("rdoc-help") 
+  echo res  
+endfunction
+
 
 nnoremap <silent> <leader>ri :call StartRDocQuery(0)<cr>
 nnoremap <silent> <leader>RI :call StartRDocQuery(1)<cr>
