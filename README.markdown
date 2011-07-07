@@ -16,7 +16,7 @@ Advantages over the venerable `ri` command-line tool:
 ## Prerequisites
 
 * Ruby 1.9.2 (but may work with other versions)
-* Vim 7.3 (will not work on 7.2) 
+* Vim 7.3 (will not work correctly on 7.2) 
 
 ## Install
 
