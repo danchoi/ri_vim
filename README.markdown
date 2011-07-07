@@ -160,8 +160,7 @@ If you've generated the HTML RDoc documentation for this Gem, you can open it
 in a web browser by pressing `,g`.
 
 
-
-## How to generate ri documentation
+### How to generate ri documentation
 
 `ri.vim` won't work very well unless you have generated ri documentation for
 your Ruby built-in library, standard library, and your installed Ruby gems.
@@ -210,7 +209,7 @@ added that to your `.gemrc`. This will make sure that the `gem install` command
 automatically generates ri documentation.
 
 
-## Changing keymappings
+### Changing keymappings
 
 You can change the keymappings for invoking ri.vim by appending something like
 this to your `.vimrc`:
@@ -219,7 +218,7 @@ this to your `.vimrc`:
     nnoremap  ,RI :call ri#OpenSearchPrompt(1)<cr> " vertical split
     nnoremap  ,RK :call ri#LookupNameUnderCursor()<cr> " keyword lookup 
 
-* * *
+
 
 ## Acknowledgements
 
