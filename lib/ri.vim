@@ -31,7 +31,8 @@ function! s:runCommand(command)
 endfunction
 
 function! RIVimStatusLine()
-  return "%<%f\ Press '.mapleader.'? for help. "."%r%=%-14.(%l,%c%V%)\ %P"
+  let a = g:mapleader
+  return "%<%f\ | Press ".a."? for help "."%r%=%-14.(%l,%c%V%)\ %P"
 endfunction
 
 " parses the first line of the doc
