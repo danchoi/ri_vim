@@ -99,7 +99,9 @@ This is a rough indicator of how much actual documentation there is to see for
 that class or module. It actually represents how many "parts" of the generated
 documentation has a "comment" associated with it. (Don't ask me what the
 definition of a "part" is; it's just something the RDoc::RI codebase knows
-about.)
+about.) Please note that the relationship between the number of comment-parts
+and the length of the documentation is not exactly linear. But it's still a
+useful filter for knowing which documentation pages are worth looking up.
     
 ### The documentation window
 
@@ -120,15 +122,25 @@ the class/module method autocompletion window:
 
 Here you can just start typing the method name (you don't need to indicate
 whether it is a class or instance method) and press `TAB`. Then the match list
-should narrow down your choices quickly. Again, the numbers here are a rough
+should narrow down your choices quickly. Again, the numbers here are a very rough
 indicator of how much documentation there is to see for that method.
 
-Let's look at `#encode`, which is ranked at a `(5)`:
+Let's look at `#encode`:
 
 ![screenshot](https://github.com/danchoi/ri_vim/raw/master/screens/class_instance_method.png)
 
-This is about 119 lines of documentation. `#encode!`, which has a rank of
-`(1)`, has 30 lines.
+When you are looking at the documentation for an instance or class method, you
+can still use `,m` to browse and jump to other methods on that same class or
+module. 
+
+You can also use `-` to jump up the hierarchy to the page for the `String`
+class. If you were in a nested class, e.g. `File::Stat`, you could also jump up
+to `File` with `-`.
+
+Alternatively, you can use the standard Vim command `CTRL-o` to jump back to
+where you were before you jumped to this page. `CTRL-i` takes you back forward.
+
+
 
 
 * * *
