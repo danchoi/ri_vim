@@ -11,7 +11,7 @@ Advantages over the venerable `ri` command-line tool:
 * powerful autocompletion help
 * hyperlinking lets your jump from definition to definition
 * run back and forth through your jump history with CTRL-o and CTRL-i
-* jump directly to gem README's and into the gem source directories
+* jump directly to gem READMEs and into the gem source directories
 * directly open corresponding HTML-formatted rdoc documentation
 
 
@@ -147,7 +147,7 @@ Alternatively, you can use the standard Vim command `CTRL-o` to jump back to
 where you were before you jumped to this page. `CTRL-i` takes you back forward.
 
 
-### Gem README's and HTML RDocs
+### Gem READMEs and HTML RDocs
 
 * `,g` takes you to the README of the gem, if you're looking at documentation
   for a gem
