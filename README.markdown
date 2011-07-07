@@ -60,6 +60,7 @@ be writing a blog post about Ruby.
 If these mapping clash or you don't like them, you can override them. See
 **Changing keymappings** below.
 
+
 ### Using the search/autocomplete window
 
 Withe the search/autocomplete window open, start typing the name of the class,
@@ -103,7 +104,12 @@ about.) Please note that the relationship between the number of comment-parts
 and the length of the documentation is not exactly linear. But it's still a
 useful filter for knowing which documentation pages are worth looking up.
     
+
 ### The documentation window
+
+* `,m` invokes the class/module method autocompletion window 
+* `-` goes up from a method page to the page of the parent class or module 
+* `CTRL-o` and `CTRL-i` jump you back and forward through the documentation pages you've visited
 
 When you find a matching method or class or module and press `ENTER`, you
 should see the ri documentation, with a little bit of syntax coloring, display
