@@ -121,8 +121,9 @@ You can move to cursor to any valid Ruby method or class/module name on this
 page (including the class and instance methods at the bottom) and press `ENTER`
 to jump to the documentation.
 
-You can also find a method on String quickly by pressing `,m`. This brings up
-the class/module method autocompletion window:
+You can also find a method on any class or module you're looking at the
+documentation for by pressing `,m`. This brings up the class/module method
+autocompletion window:
 
 ![screenshot](https://github.com/danchoi/ri_vim/raw/master/screens/class_method_autocomplete.png)
 
