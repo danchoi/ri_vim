@@ -115,7 +115,7 @@ function! s:prepareDocBuffer()
   noremap <buffer> <Leader>q :call <SID>closeRIVim()<cr>
 
   let s:browser_bufnr = bufnr('%')
-  autocmd BufRead <buffer> call <SID>prepareDocBuffer()
+  autocmd BufRead <buffer> call <SID>syntaxLoad()
   call s:syntaxLoad()
   setlocal nomodifiable
 endfunction
