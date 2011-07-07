@@ -229,5 +229,22 @@ that very useful codebase.
 And also to Tim Pope, who continues to lead the way in making Vim a very
 productive and happy environment for crafting Ruby software.
 
+## Bug reports and feature requests
+
+Please submit them here:
+
+* <https://github.com/danchoi/ri_vim/issues>
+
+
+## About the developer
+
+My name is Daniel Choi. I specialize in Ruby, Rails, MySQL, PostgreSQL, and iOS
+development. I am based in Cambridge, Massachusetts, USA.
+
+* Twitter: [@danchoi][twitter] 
+* Personal Email: dhchoi@gmail.com  
+* My Homepage: <http://danielchoi.com/software>
+
+[twitter]:http://twitter.com/#!/danchoi
 
 
