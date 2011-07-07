@@ -1,6 +1,7 @@
-# RIVim
+# ri.vim / ri Vim plugin
 
-RIVim lets you search and navigate Ruby library and gem documentation inside Vim.
+The ri Vim plugin lets you search and navigate Ruby library and gem
+documentation inside Vim.
 
 [screenshots]
 
@@ -27,11 +28,24 @@ Then
 
     ri_vim_install
 
-`ri_vim_install` installs a Vim plugin into your ~/.vim/plugin
-directory. 
+`ri_vim_install` installs the ri.vim plugin into your ~/.vim/plugin directory. 
 
-To upgrade RIVim to a newer version, just repeat the installation procedure.
+To upgrade ri.vim to a newer version, just repeat the installation procedure.
 Don't forget to run `ri_vim_install` again after you download the new gem.
+
+
+
+
+## Acknowledgements
+
+Special thanks to Eric Hodel, the maintainer of ri and rdoc, for providing and
+maintaining the whole ri and rdoc infrastructure that ri.vim builds on.
+
+And to Tim Pope, who continues to lead the way in making Vim a
+ultra-productive environment for Ruby programming.
+
+
+
 
 
 
