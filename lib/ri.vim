@@ -302,10 +302,15 @@ function! s:upToParentClass()
   end
 endfunction
 
-let s:gemNamePattern =  '^(from gem (\[^)]\+)'  
+let s:gemNamePattern =  '^(from gem \([^)]\+\)'  
 function! s:gemDirectory()
   let res = search(s:gemNamePattern, 'w')
-  echo res
+  if res == 0
+    return
+  endif
+  let gem = get(matchlist(getline(res), s:gemNamePattern), 1)
+  let gem_path = $GEM_HOME.'/gems/'.gem
+  exec 'lcd '.gem_path
 endfunction
 
 function! s:help()
