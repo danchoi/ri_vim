@@ -226,7 +226,7 @@ function! s:displayDoc(query)
   let lines = split(res, "\n")
   if len(lines) == 0
     redraw
-    echom "No matches"
+    echom "No matches!"
   else
     call writefile(lines, fnameescape(cacheFile))
     exec "edit ".fnameescape(fnameescape(cacheFile))
