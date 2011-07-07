@@ -109,6 +109,11 @@ in a Vim window.
 
 ![screenshot](https://github.com/danchoi/ri_vim/raw/master/screens/ri_string_doc.png)
 
+You can move to cursor to any valid Ruby method or class/module name on this
+page and press `ENTER` to jump to the documentation.
+
+
+
 
 * * *
 
