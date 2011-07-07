@@ -164,7 +164,7 @@ function! RubyClassMethodComplete(findstart, base)
     let res = [] " find tracks matching a:base
     for m in s:classMethods
       " why doesn't case insensitive flag work?
-      if m =~ '^\c.\?' . a:base 
+      if m =~ '^\c.\?' . substitute(a:base, '\*', '\\*', '')
         let parts = split(m, '\s\+')
         if len(parts) > 1 
           call add(res, {'word': parts[0], 'menu': parts[1]})
