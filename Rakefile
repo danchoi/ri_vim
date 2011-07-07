@@ -40,7 +40,7 @@ task :build_webpage do
   `cp README.markdown ../project-webpages/src/ri_vim.README.markdown`
   `cp coverage.markdown ../project-webpages/src/ri_vim.coverage.markdown`
   Dir.chdir "../project-webpages" do
-    puts `ruby gen.rb ri_vim #{ViTunes::VERSION}`
+    puts `ruby gen.rb ri_vim #{RIVim::VERSION}`
     `open out/ri_vim.html`
   end
 end

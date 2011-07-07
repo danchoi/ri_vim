@@ -21,6 +21,8 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
+  s.add_dependency 'rdoc', '= 3.8'
+
   message = "* Now please run ri_vim_install to install the Vim plugin *"
   divider = "*" * message.length 
   s.post_install_message = [divider, message, divider].join("\n")
