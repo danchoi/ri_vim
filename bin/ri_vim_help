@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+begin
+  require 'ri_vim/help'
+rescue LoadError
+  require 'rubygems'
+  require 'ri_vim/help'
+end
+
+
+puts RIVim::Help.help

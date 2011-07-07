@@ -331,7 +331,7 @@ endfunction
 
 function! s:help()
   " This just displays the README
-  let res = system("rdoc-help") 
+  let res = system("ri_vim_help") 
   echo res  
 endfunction
 
