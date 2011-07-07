@@ -215,6 +215,8 @@ LATER
   method names that start with caps
 
 
-
 TODO
-  - open corresponding rdoc
+  - open corresponding rdoc (the rvm docs open only opens the ruby library rdocs, not the gem rdocs)
+  - cd into gem directory
+
+

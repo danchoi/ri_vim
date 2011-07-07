@@ -160,24 +160,26 @@ function! RubyClassMethodComplete(findstart, base)
     let start = 0
     return start
   else
-    if (a:base == '')
-      return s:classMethods
-    else
-      let res = [] " find tracks matching a:base
-      for m in s:classMethods
-        " why doesn't case insensitive flag work?
-        if m =~ '^\c.\?' . a:base 
+    
+    let res = [] " find tracks matching a:base
+    for m in s:classMethods
+      " why doesn't case insensitive flag work?
+      if m =~ '^\c.\?' . a:base 
+        let parts = split(m, '\s\+')
+        if len(parts) > 1 
+          call add(res, {'word': parts[0], 'menu': parts[1]})
+        else
           call add(res, m)
         endif
-      endfor
-      return res
-    endif
+      endif
+    endfor
+    return res
+ 
   endif
 endfun
 
 function! s:matchingMethods(classname)
   let command = s:rdoc_tool . '-m '. shellescape(a:classname)
-  echom command
   return split(system(command), '\n')
 endfunction
 
@@ -195,6 +197,7 @@ function! s:doSearch()
   endif
   " clean up query string
   " let query = substitute(query, '\s*(\d\+)$', '', '')
+  "
   let query = substitute(query, '::$', '', '')
 
   " for search for method
