@@ -112,8 +112,8 @@ useful filter for knowing which documentation pages are worth looking up.
 * `CTRL-o` and `CTRL-i` jump you back and forward through the documentation pages you've visited
 
 When you find a matching method or class or module and press `ENTER`, you
-should see the ri documentation, with a little bit of syntax coloring, display
-in a Vim window.
+should see the ri documentation, with a light touch of color-highlighting,
+display in a Vim window.
 
 ![screenshot](https://github.com/danchoi/ri_vim/raw/master/screens/ri_doc.png)
 
