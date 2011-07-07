@@ -335,9 +335,10 @@ endfunction
 
 nnoremap <silent> <leader>r :call StartRDocQuery(0)<cr>
 nnoremap <silent> <leader>R :call StartRDocQuery(1)<cr>
-echo "vim_rdoc loaded"
+echo "ri.vim loaded"
 
 call s:createCacheDir()
 
-let g:RDocLoaded = 1
+let g:RIVimLoaded = 1
+
 

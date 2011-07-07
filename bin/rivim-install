@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+begin
+  require 'install'
+rescue LoadError
+  require 'rubygems'
+  require 'install'
+end
+
+RIVim::Install.install_vim_plugin
