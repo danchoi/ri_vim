@@ -5,7 +5,7 @@ class RIVim
       plugin_template = File.read(File.join(File.dirname(__FILE__), 'plugin.erb'))
       vimscript_file = File.join(File.dirname(__FILE__), 'ri.vim')
 
-      ri_vim_tool_path = File.join(File.dirname(__FILE__), 'ri_vim.rb')
+      ri_vim_tool_path = "ri_vim"
       plugin_body = ERB.new(plugin_template).result(binding)
 
       `mkdir -p #{ENV['HOME']}/.vim/plugin`
