@@ -22,6 +22,8 @@ require 'rdoc/text'
 require 'rdoc/ri/formatter'
 
 class RIVim
+  class NotFoundError < StandardError; end
+
   attr_accessor :stores
   def initialize names
     options = {
@@ -602,6 +604,8 @@ class RIVim
       else
         ri.display_matches ARGV.first
       end
+    rescue NotFoundError 
+      puts ""
     end
   end
 end
