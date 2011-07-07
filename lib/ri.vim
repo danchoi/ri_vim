@@ -242,7 +242,6 @@ function! s:doSearch()
     return
   endif
 
-  call s:focusBrowserWindow()
   call s:displayDoc(query)
 endfunction
 
@@ -260,6 +259,7 @@ function! s:displayDoc(query)
     redraw
     echom "No matches!"
   else
+    call s:focusBrowserWindow()
     call writefile(lines, fnameescape(cacheFile))
     exec "edit ".fnameescape(fnameescape(cacheFile))
     call s:prepareDocBuffer()
