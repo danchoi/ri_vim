@@ -4,15 +4,14 @@
 "
 " Buid this path with plugin install program
 
-if exists("g:rdoc_tool")
-  let s:rdoc_tool = g:rdoc_tool
+if exists("g:ri_vim_tool")
+  let s:ri_vim_tool = g:ri_vim_tool
 else
   " This is the development version (specific to D Choi's setup)
-  let s:rdoc_tool = 'ruby -I/home/choi/p/ri_vim/lib /home/choi/p/ri_vim/bin/ri_vim '
+  let s:ri_vim_tool = 'ruby -I/home/choi/p/ri_vim/lib /home/choi/p/ri_vim/bin/ri_vim '
   " Maybe I should make this a relative path
 endif
 
-let s:ri_tool = 'ri --format=rdoc '
 let s:selectionPrompt = ""
 let s:cacheDir = $HOME."/.ri_vim/cache"
 
@@ -147,7 +146,7 @@ function! RDocAutoComplete(findstart, base)
 endfun
 
 function! s:matchingNames(query)
-  let command = s:rdoc_tool . shellescape(a:query)
+  let command = s:ri_vim_tool . shellescape(a:query)
   echom command
   return split(system(command), '\n')
 endfunction
@@ -204,7 +203,7 @@ function! RubyClassMethodComplete(findstart, base)
 endfun
 
 function! s:matchingMethods(classname)
-  let command = s:rdoc_tool . '-m '. shellescape(a:classname)
+  let command = s:ri_vim_tool . '-m '. shellescape(a:classname)
   return split(system(command), '\n')
 endfunction
 
@@ -235,7 +234,7 @@ function! s:doSearch()
 endfunction
 
 function! s:displayDoc(query)
-  let bcommand = s:rdoc_tool.'-d '.shellescape(a:query)
+  let bcommand = s:ri_vim_tool.'-d '.shellescape(a:query)
   let res = s:runCommand(bcommand)
   " We're caching is strictly so we can use CTRL-o and CTRL-i
   " escape any character that could cause a problem in saving the filename
