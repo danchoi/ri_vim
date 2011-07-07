@@ -9,7 +9,7 @@ Advantages over the venerable `ri` command-line tool:
 
 * write code and browse pertinent documentation in adjacent Vim windows
 * powerful autocompletion help
-* hyperlinking lets your jump from definition to definition
+* hyperlinking lets you jump from definition to definition
 * run back and forth through your jump history with CTRL-o and CTRL-i
 * jump directly to gem READMEs and into the gem source directories
 * directly open corresponding HTML-formatted rdoc documentation
