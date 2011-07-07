@@ -223,9 +223,15 @@ function! s:displayDoc(query)
   let cacheFile = substitute(s:cacheDir.'/'.fileName, '#', ',','')
   " escape characters than can't be in a filename
   " let cacheFile = substitute(cacheFile, '[#*]', ',','')
-  call writefile(split(res, "\n"), fnameescape(cacheFile))
-  exec "edit ".fnameescape(fnameescape(cacheFile))
-  call s:prepareDocBuffer()
+  let lines = split(res, "\n")
+  if len(lines) == 0
+    redraw
+    echom "No matches"
+  else
+    call writefile(lines, fnameescape(cacheFile))
+    exec "edit ".fnameescape(fnameescape(cacheFile))
+    call s:prepareDocBuffer()
+  endif
 endfunction
 
 func! s:syntaxLoad()
