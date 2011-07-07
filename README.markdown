@@ -3,6 +3,8 @@
 `ri.vim` lets you search and navigate Ruby library and gem documentation inside
 Vim.
 
+[screenshots]
+
 Advantages over the venerable `ri` command-line tool:
 
 * write code and browse pertinent documentation in adjacent Vim windows
