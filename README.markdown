@@ -127,7 +127,8 @@ Let's look at `#encode`, which is ranked at a `(5)`:
 
 ![screenshot](https://github.com/danchoi/ri_vim/raw/master/screens/class_instance_method.png)
 
-
+This is about 119 lines of documentation. `#encode!`, which has a rank of
+`(1)`, has 30 lines.
 
 
 * * *
