@@ -183,8 +183,9 @@ You may run into the following an error when you run this rvm command:
     uh-oh! RDoc had a problem:
     invalid option: --ri-site generator already set to ri
 
-If you see this, you should patch the `~/.rvm/scripts/docs` script.  Find the
-`generate_ri()` function and replace this line:
+If you see this, my solution (I'm not 100% sure this is the best way) was to
+patch the `~/.rvm/scripts/docs` script.  Find the `generate_ri()` function and
+replace this line:
 
     rdoc -a --ri --ri-site > /dev/null 2>> ${rvm_log_path}/$rvm_docs_ruby_string/docs.log
 
@@ -192,7 +193,7 @@ with:
 
     rdoc -a --ri 
 
-and run `rvm docs generate-ri` again.
+This should let you run `rvm docs generate-ri` successfully. 
 
 To generate ri documentation for your gems, reinstall the ones currently
 without ri documentation with the following command
