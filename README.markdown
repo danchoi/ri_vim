@@ -4,9 +4,15 @@ RIVim lets search and navigate Ruby library and gem documentation inside Vim.
 
 [screenshots]
 
-Benefits:
+Advantages over command-line ri:
 
-* autocomplete helps you look up classes and methods 
+* write code and browse pertinent documentation in adjacent Vim windows
+* powerful autocompletion help
+* hyperlinking lets your jump from definition to definition
+* go back and forward through your jump history with CTRL-o and CTRL-i
+* jump directly to gem README's and into the gem source directories
+* directly open corresponding HTML-formatted rdoc documentation
+
 
 ## Prerequisites
 
