@@ -324,6 +324,11 @@ function! s:openRDoc()
   exec "!open ".rdoc_index
 endfunction
 
+function! s:updateBrowserBufNrAndLoadSyntax()
+  let s:browser_bufnr = bufnr('%')
+  call s:syntaxLoad()
+endfunction
+
 function! s:help()
   " This just displays the README
   let res = system("rdoc-help") 
@@ -334,7 +339,7 @@ endfunction
 nnoremap <silent> <leader>r :call StartRDocQuery(0)<cr>
 nnoremap <silent> <leader>R :call StartRDocQuery(1)<cr>
 
-autocmd BufRead *.rivim call <SID>syntaxLoad()
+autocmd BufRead *.rivim call <SID>updateBrowserBufNrAndLoadSyntax()
 
 call s:createCacheDir()
 
