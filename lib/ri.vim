@@ -109,7 +109,6 @@ function! s:prepareDocBuffer()
   noremap <buffer> <cr> :call <SID>playTrack()<cr>
   noremap <buffer> K :call ri#LookupNameUnderCursor()<CR>
   noremap <buffer> <CR> :call ri#LookupNameUnderCursor()<CR>
-  noremap <buffer> u :call <SID>upToParentClass()<CR>
   noremap <buffer> - :call <SID>upToParentClass()<CR>
   noremap <buffer> <Leader>g :call <SID>openREADME()<CR>
   noremap <buffer> <Leader>h :call <SID>openRDoc()<CR>

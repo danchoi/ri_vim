@@ -34,7 +34,7 @@ To upgrade ri.vim to a newer version, just repeat the installation procedure.
 Don't forget to run `ri_vim_install` again after you download the new gem.
 
 The next step is to make sure that you have ri documentation installed on your
-system for everything you want to look up. See the **Generate ri documentation**
+system for everything you want to look up. See the **How to generate ri documentation**
 section below for help.
 
 * * * 
@@ -147,11 +147,22 @@ Alternatively, you can use the standard Vim command `CTRL-o` to jump back to
 where you were before you jumped to this page. `CTRL-i` takes you back forward.
 
 
+### Gem README's and HTML RDocs
+
+* `,g` takes you to the README of the gem, if you're looking at documentation
+  for a gem
+* `,h` opens the HTML RDoc version of the gem documentation you are looking at
+
+If you are looking at documentation for a Gem, you can see the README for
+that gem (assuming it exists and is called README.*) by pressing `,g`.
+
+If you've generated the HTML RDoc documentation for this Gem, you can open it
+in a web browser by pressing `,g`.
 
 
 * * *
 
-## Generate ri documentation
+## How to generate ri documentation
 
 `ri.vim` won't work very well unless you have generated ri documentation for
 your Ruby built-in library, standard library, and your installed Ruby gems.
