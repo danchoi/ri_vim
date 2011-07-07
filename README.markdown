@@ -37,7 +37,7 @@ The next step is to make sure that you have ri documentation installed on your
 system for everything you want to look up. See the **How to generate ri documentation**
 section below for help.
 
-* * * 
+
 
 ## Commands
 
@@ -160,7 +160,6 @@ If you've generated the HTML RDoc documentation for this Gem, you can open it
 in a web browser by pressing `,g`.
 
 
-* * *
 
 ## How to generate ri documentation
 
