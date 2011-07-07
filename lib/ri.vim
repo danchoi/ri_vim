@@ -76,7 +76,7 @@ function! s:focusBrowserWindow()
   endif
 endfunction
 
-function! StartRDocQuery(verticalSplit)
+function! ri#StartRDocQuery(verticalSplit)
   let s:verticalSplit = a:verticalSplit 
   let classname = s:classname()
   if classname != ''
@@ -107,8 +107,8 @@ function! s:prepareDocBuffer()
   setlocal textwidth=0
   noremap <buffer> <Leader>m :call <SID>selectMethod()<cr>
   noremap <buffer> <cr> :call <SID>playTrack()<cr>
-  noremap <buffer> K :call <SID>lookupNameUnderCursor()<CR>
-  noremap <buffer> <CR> :call <SID>lookupNameUnderCursor()<CR>
+  noremap <buffer> K :call ri#LookupNameUnderCursor()<CR>
+  noremap <buffer> <CR> :call ri#LookupNameUnderCursor()<CR>
   noremap <buffer> u :call <SID>upToParentClass()<CR>
   noremap <buffer> - :call <SID>upToParentClass()<CR>
   noremap <buffer> <Leader>g :call <SID>openREADME()<CR>
@@ -277,7 +277,7 @@ func! s:syntaxLoad()
   set cocu=n
 endfunc
 
-function! s:lookupNameUnderCursor()
+function! ri#LookupNameUnderCursor()
   let query = substitute(expand("<cWORD>"), '[.,;]$', '', '')
   let query = substitute(query, '</\?tt>', '', 'g')
   let classname = s:classname()
@@ -293,7 +293,7 @@ function! s:lookupNameUnderCursor()
   " see if we're looking up a method
   elseif query =~ '^[^A-Z]'
     " run the method lookup
-    call StartRDocQuery(0)
+    call ri#StartRDocQuery(0)
     call feedkeys(query."\<c-x>\<c-u>", "t")
     return
   endif
@@ -352,9 +352,12 @@ function! s:help()
 endfunction
 
 
-nnoremap <silent> <leader>r :call StartRDocQuery(0)<cr>
-nnoremap <silent> <leader>R :call StartRDocQuery(1)<cr>
-nnoremap <silent> <leader>K :call <SID>lookupNameUnderCursor()<cr>
+if !hasmapto("ri#StartRDocQuery",'n')
+  echom "no mappings yet"
+  nnoremap <silent> <leader>r :call ri#StartRDocQuery(0)<cr>
+  nnoremap <silent> <leader>R :call ri#StartRDocQuery(1)<cr>
+  nnoremap <silent> <leader>K :call ri#LookupNameUnderCursor()<cr>
+endif
 
 autocmd BufRead *.rivim call <SID>updateBrowserBufNrAndLoadSyntax()
 
