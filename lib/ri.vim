@@ -305,7 +305,6 @@ function! ri#LookupNameUnderCursor()
     call feedkeys(query."\<c-x>\<c-u>", "t")
     return
   endif
-  call s:focusBrowserWindow()
   call s:displayDoc(query)
 endfunction
 
