@@ -14,6 +14,7 @@ endif
 
 let s:selectionPrompt = ""
 let s:cacheDir = $HOME."/.ri_vim/cache"
+let s:verticalSplit = 1
 
 func! s:trimString(string)
   let string = substitute(a:string, '\s\+$', '', '')
