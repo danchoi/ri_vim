@@ -226,8 +226,6 @@ Special thanks to Eric Hodel for developing and maintaining the whole ri and
 rdoc infrastructure that ri.vim builds on. ri.vim adds just a little piece to
 that very useful codebase.
 
-And also to Tim Pope, who continues to lead the way in making Vim a very
-productive and happy environment for crafting Ruby software.
 
 ## Bug reports and feature requests
 
