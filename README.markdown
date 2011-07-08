@@ -52,16 +52,11 @@ For the all the commands below, the mapleader is assumed to be `,`. If it is
   display matching documentatoin
 * `,K` opens the search/autocomplete window and prefills it with the keyword
   under the cursor
-
-These mappings will work irrespective of the filetype of your current buffer.
-You don't have to be looking at a Ruby file to invoke ri.vim. You could, e.g.,
-be writing a blog post about Ruby.
-
-If these mapping clash or you don't like them, you can override them. See
-**Changing keymappings** below.
-
 * `K` is automatically remapped to use ri.vim if the current buffer is a *.rb
   file
+
+If these mapping clash or you don't like them, you can override some of them.
+See **Changing keymappings** below.
 
 
 ### Using the search/autocomplete window
