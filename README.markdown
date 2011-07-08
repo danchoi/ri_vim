@@ -60,6 +60,9 @@ be writing a blog post about Ruby.
 If these mapping clash or you don't like them, you can override them. See
 **Changing keymappings** below.
 
+* `K` is automatically remapped to use ri.vim if the current buffer is a *.rb
+  file
+
 
 ### Using the search/autocomplete window
 
