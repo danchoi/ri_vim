@@ -286,6 +286,7 @@ endfunc
 
 function! ri#LookupNameUnderCursor()
   let query = substitute(expand("<cWORD>"), '[.,;]$', '', '')
+  let query = substitute(query, '(.*$', '', '')
   let query = substitute(query, '</\?tt>', '', 'g')
   let classname = s:classname()
   if classname != ''
@@ -366,6 +367,8 @@ if !hasmapto("ri#OpenSearchPrompt",'n')
 endif
 
 autocmd BufRead *.rivim call <SID>updateBrowserBufNrAndLoadSyntax()
+
+au BufRead,BufNewFile *.rb		nnoremap <buffer> K :call ri#LookupNameUnderCursor()<cr>
 
 call s:createCacheDir()
 
