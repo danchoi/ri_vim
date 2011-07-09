@@ -157,6 +157,8 @@ that gem (assuming it exists and is called README.*) by pressing `,g`.
 If you've generated the HTML RDoc documentation for this Gem, you can open it
 in a web browser by pressing `,h`.
 
+If you're looking at a gem's README, you can change the local working directory 
+to the gem root directory by using the vim command `:lcd %:h`.
 
 ## How to generate ri documentation
 
