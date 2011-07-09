@@ -269,10 +269,9 @@ endfunction
 
 func! s:syntaxLoad()
   syntax clear
+  syntax region rdoctt  matchgroup=ttTags start="<i>" end="</i>" concealends
   syntax region rdoctt  matchgroup=ttTags start="<tt>" end="</tt>" concealends
   syntax region rdoctt  matchgroup=ttTags start="<em>" end="</em>" concealends
-  syntax region rdoctt  matchgroup=ttTags start="<b>" end="</b>" concealends
-  syntax region rdoctt  matchgroup=ttTags start="<i>" end="</i>" concealends
   highlight link rdoctt Constant
   highlight link ttTags Comment
   syntax region h1  start="^="       end="\($\)" contains=@Spell
