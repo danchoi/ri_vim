@@ -232,7 +232,7 @@ function! s:doSearch()
     let query = get(parts, 1)
   endif
   " for select method of class
-  if query =~ '^\.\|^#'
+  if query =~ '^\.' || query =~ '^#'
     let query = s:classname . query
   endif
 
@@ -268,6 +268,9 @@ function! s:displayDoc(query)
 endfunction
 
 func! s:syntaxLoad()
+  if !exists("g:syntax_on")
+    return
+  endif
   syntax clear
   syntax region rdoctt  matchgroup=ttTags start="<i>" end="</i>" concealends
   syntax region rdoctt  matchgroup=ttTags start="<tt>" end="</tt>" concealends
