@@ -26,16 +26,11 @@ features.
 
 ## Install
 
-    gem install ri_vim
-
-Then
-
-    ri_vim_install
+    gem install ri_vim && ri_vim_install
 
 This installs the ri.vim plugin into your ~/.vim/plugin directory. 
 
 To upgrade ri.vim to a newer version, just repeat the installation procedure.
-Don't forget to run `ri_vim_install` again after you download the new gem.
 
 The next step is to make sure that you have ri documentation installed on your
 system for everything you want to look up. See the **How to generate ri documentation**
