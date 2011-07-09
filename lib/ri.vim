@@ -367,7 +367,7 @@ endif
 
 autocmd BufRead *.rivim call <SID>updateBrowserBufNrAndLoadSyntax()
 
-au BufRead,BufNewFile *.rb		nnoremap <buffer> K :call ri#LookupNameUnderCursor()<cr>
+au FileType ruby		nnoremap <buffer> K :call ri#LookupNameUnderCursor()<cr>
 
 call s:createCacheDir()
 
