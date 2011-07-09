@@ -14,6 +14,10 @@ Advantages over the venerable `ri` command-line tool:
 * jump directly to gem READMEs and into the gem source directories
 * directly open corresponding HTML-formatted rdoc documentation
 
+Please check out my related Vim plugin
+[RbNav](http://danielchoi.com/software/rb_nav.html) for project-navigation
+features.
+
 
 ## Prerequisites
 
