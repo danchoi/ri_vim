@@ -270,7 +270,7 @@ endfunction
 func! s:syntaxLoad()
   if !exists("g:syntax_on")
     set modifiable
-    silent! %!sed -e 's/<\/\?tt>/`/g' -e 's/<\/\?em>//g' -e 's/<\/\?b>//g'
+    silent! %!sed -e 's/<\/\?tt>/`/g' -e 's/<\/\?em>//g' -e 's/<\/\?b>//g' -e 's/<\/\?i>//g'
     set nomodifiable
     return
   endif
