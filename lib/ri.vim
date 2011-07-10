@@ -269,6 +269,9 @@ endfunction
 
 func! s:syntaxLoad()
   if !exists("g:syntax_on")
+    set modifiable
+    silent! %!sed -e 's/<\/\?tt>/`/g' -e 's/<\/\?em>//g' -e 's/<\/\?b>//g'
+    set nomodifiable
     return
   endif
   syntax clear
