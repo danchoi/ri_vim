@@ -104,7 +104,7 @@ useful filter for knowing which documentation pages are worth looking up.
 
 ### The documentation window
 
-* `,rr` invokes the class/module method autocompletion window 
+* `,,r` invokes the class/module method autocompletion window 
 * `-` goes up from a method page to the page of the parent class or module 
 * `CTRL-o` and `CTRL-i` jump you back and forward through the documentation pages you've visited
 
