@@ -106,7 +106,7 @@ endfunction
 function! s:prepareDocBuffer()
   setlocal nowrap
   setlocal textwidth=0
-  noremap <buffer> <Leader>m :call <SID>selectMethod()<cr>
+  noremap <buffer> <Leader>rr :call <SID>selectMethod()<cr>
   noremap <buffer> <cr> :call <SID>playTrack()<cr>
   noremap <buffer> K :call ri#LookupNameUnderCursor()<CR>
   noremap <buffer> <CR> :call ri#LookupNameUnderCursor()<CR>
